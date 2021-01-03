@@ -12,8 +12,8 @@ function Home () {
                     <PageTitle>Like to Stream?</PageTitle>
                     <PageExceprt>Sign Up now to let viewers take control of your game!</PageExceprt>
                     <ButtonContainer>
-                        <SignUpButton><SignUpText>SIGN UP</SignUpText></SignUpButton>
-                        <LearnMoreButton><LearnMoreText>LEARN MORE</LearnMoreText></LearnMoreButton>
+                        <a href="/auth/twitch"><SignUpButton><SignUpText>SIGN UP</SignUpText></SignUpButton></a>
+                        <a><LearnMoreButton><LearnMoreText>LEARN MORE</LearnMoreText></LearnMoreButton></a>
                     </ButtonContainer>
                 </SignUpWrapper>
             </ContentWrapper>

@@ -53,7 +53,7 @@ passport.deserializeUser(function(user, done) {
 router.get("/twitch", passport.authenticate("twitch", {forceVerify: true}));
 router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/fail" }), function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/play");
+    res.redirect("/");
 });
 
 module.exports = router;

@@ -9,7 +9,7 @@ function Layout ({children}) {
             <Header>
                 <HeaderContentWrapper>
                     <HeaderText>UTHD MC</HeaderText>
-                    <HeaderProfile id="profileImg" src=""></HeaderProfile>
+                    <HeaderProfile id="profileImg" className="hidden"></HeaderProfile>
                 </HeaderContentWrapper>
             </Header>
             {children}
@@ -19,13 +19,15 @@ function Layout ({children}) {
 
 async function updateUserData() {
     try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
-        const response = await axios.get('/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
+        const response = await axios.get('http://localhost:3000/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
         userData = response.data.user;
-        document.getElementById("profileImg").src = `${userData.profileImg}`;
+        if(userData.loggedIn == true) {
+            document.getElementById("profileImg").src = `${userData.profileImg}`;
+            document.getElementById("profileImg").classList.remove("hidden");
+        }
     }
     catch(err) {
         console.log(err);
-        document.getElementById("profileImg").classList.add("hidden");
     }
 }
 
@@ -51,7 +53,7 @@ const HeaderText = styled.h1`
 
 const HeaderProfile = styled.img`
     width: 50px;
-    background-color: gray;
+    background-color: black;
     border-radius: 100%;
     border: 2px solid #F0524C;
     cursor: pointer;
