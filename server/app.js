@@ -1,30 +1,34 @@
 #!/usr/bin/env node
-//import modules
+/* IMPORT MODULES */
 const express = require('express');
 const next = require('next');
-var Rcon = require('rcon');
-var conn = new Rcon('localhost', 25575, 'password');
-var connActive = false;
-conn.on('auth', function() {
-  console.log("Authed!");
-  connActive = true;
-}).on('response', function(str) {
-  console.log("Got response: " + str);
+const passport = require('passport');
+const session = require('express-session');
+var cookieParser   = require("cookie-parser");
+const uid = require('uid-safe');
+const connectEnsureLogin = require('connect-ensure-login');
 
-}).on('end', function() {
-  console.log("Socket closed!");
-  process.exit();
 
-}).on('error', function(err) {
-  console.log(`RCON Connection Error: ${err}`);
-  connActive = false;
-});
-
+//Connect to RCON server
+const conn = require('./lib/rcon');
 conn.connect();
-const apiRoutes = require('./routes/api/apiRouter.js');
 
+//Require Routers
+const apiRoutes = require('./routes/api/apiRouter.js');
+const authRoutes = require('./routes/auth');
+
+const sessionConfig = {
+  secret: uid.sync(18),
+  cookie: {
+    maxAge: 86400 * 1000 // 24 hours in milliseconds
+  },
+  resave: false,
+  saveUninitialized: true
+};
 
 /* Next.JS Setup */
+
+//Next.JS Config
 const dev = true;
 const app = next({
     dev,
@@ -43,18 +47,29 @@ app
         const server = express();
         server.use(express.urlencoded());
         server.use(express.static('../client/public'));
+        
+      
+        server.use(session(sessionConfig));
+        server.use(passport.initialize());
+        server.use(passport.session());
+        server.use(cookieParser());
+
+        /* ROUTING */
         server.use('/api', apiRoutes);
+        server.use('/auth', authRoutes);
         server.get('/_next*', handle);
-        server.get('*', handle);
-        server.post('/command', (req, res) => {
-          if (req.body.password == "1234"){
-            conn.send(req.body.command);
-          }
-          res.redirect('/command');
+        server.get('/play', (req, res) => {
+          res.end()
         });
+        
+        server.get('*', handle);
         server.listen(port, (err) => {
             if (err) throw err;
             console.log(`Listening on port ${port}`);
         });
 
     });
+
+module.exports.log = (message) => {
+  console.log(message);
+}

@@ -49,7 +49,7 @@ const SignUpWrapper = styled.div`
 `;
 
 const Richie = styled.img`
-    height: 90%;
+    height: 50%;
     min-width: 600px;
     max-width: 100%;
     padding-left: 20px;

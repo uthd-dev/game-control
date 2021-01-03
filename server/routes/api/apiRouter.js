@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 router.use(express.urlencoded());
 
+const usersApi = require('./userApi');
+
 /* Router */
-router.post('command', (req, res) => {
-    
-});
+router.use('/users', usersApi);
 
 module.exports = router;
