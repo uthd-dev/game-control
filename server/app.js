@@ -29,7 +29,7 @@ const sessionConfig = {
 /* Next.JS Setup */
 
 //Next.JS Config
-const dev = false;
+const dev = true;
 const app = next({
     dev,
     dir: './client/src'

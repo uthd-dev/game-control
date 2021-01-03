@@ -9,7 +9,11 @@ function Layout ({children}) {
             <Header>
                 <HeaderContentWrapper>
                     <HeaderText>UTHD MC</HeaderText>
-                    <HeaderProfile id="profileImg" className="hidden"></HeaderProfile>
+                    <HeaderMenu>
+                        <a href="/auth/twitch"><SignInButton id="si-button"><SignInText>Sign in with Twitch</SignInText></SignInButton></a>
+                        <HeaderGreeting className="hidden">Welcome!</HeaderGreeting>
+                        <HeaderProfileImage id="profileImg" className="hidden"></HeaderProfileImage>
+                    </HeaderMenu>
                 </HeaderContentWrapper>
             </Header>
             {children}
@@ -24,6 +28,7 @@ async function updateUserData() {
         if(userData.loggedIn == true) {
             document.getElementById("profileImg").src = `${userData.profileImg}`;
             document.getElementById("profileImg").classList.remove("hidden");
+            document.getElementById("si-button").classList.add("hidden");
         }
     }
     catch(err) {
@@ -51,12 +56,35 @@ const HeaderText = styled.h1`
 
 `;
 
-const HeaderProfile = styled.img`
+const HeaderProfileImage = styled.img`
     width: 50px;
     background-color: black;
     border-radius: 100%;
     border: 2px solid #F0524C;
     cursor: pointer;
+`;
+const HeaderGreeting = styled.h3`
+    color: white;
+`;
+const SignInButton = styled.div`
+    background-color: #9146FF;
+    height: 38px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    :hover {
+
+    }
+`;
+const SignInText = styled.h5`
+    margin: 0;
+    font-size: 15px;
+`;
+
+const HeaderMenu = styled.div`
+    display: flex;
 `;
 
 const HeaderContentWrapper = styled.div`
