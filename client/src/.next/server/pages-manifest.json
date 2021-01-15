@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/stream": "pages/stream.js",
-  "/command": "pages/command.js"
+  "/play/uthd": "pages/play/uthd.js",
+  "/stream": "pages/stream.js"
 }

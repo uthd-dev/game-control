@@ -24,10 +24,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/command": [
+    "/play/uthd": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/command.js"
+      "static/chunks/pages/play/uthd.js"
     ],
     "/stream": [
       "static/chunks/main.js",
