@@ -2,9 +2,9 @@
 var Rcon = require('rcon');
 
 /* CONNECTION PROPERTIES */
-const host = "192.168.8.160";
+const host = "127.0.0.1";
 const port = 25575;
-const pw = process.env.RCON_PASSWORD;
+const pw = "password";
 
 var conn = new Rcon(host, port, pw);
 var connActive = false;

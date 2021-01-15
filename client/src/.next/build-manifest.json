@@ -24,6 +24,11 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
+    "/command": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/command.js"
+    ],
     "/stream": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",

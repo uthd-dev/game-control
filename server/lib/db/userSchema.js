@@ -15,8 +15,9 @@ const User = new Schema({
     username: String,
     profileImg: String,
     provider: String,
-    shards: Number
-}); 
+    shards: Number,
+    ign: String
+});
   
 User.plugin(findOrCreate);
 

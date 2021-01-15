@@ -7,10 +7,11 @@ const session = require('express-session');
 var cookieParser   = require("cookie-parser");
 const uid = require('uid-safe');
 const connectEnsureLogin = require('connect-ensure-login');
+const mc = require('./lib/rcon/minecraftActions');
 
 
 //Connect to RCON server
-const conn = require('./lib/rcon');
+const conn = require('./lib/rcon/rcon');
 conn.connect();
 
 //Require Routers
@@ -61,7 +62,22 @@ app
         server.get('/play', (req, res) => {
           res.end()
         });
-        
+        server.get('/command', (req, res) => {
+          if(req.user) {
+            if(req.user.username == "uthd") {
+              if(req.query.command == "kill"){
+                mc.kill();
+              }
+              handle(req, res);
+            }else {
+              console.log(`${req.user.username} accessed the kill switch!`);
+              handle(req, res);
+            }
+          }else {
+            res.redirect('/stream');
+          }
+          
+        });
         server.get('*', handle);
         server.listen(port, (err) => {
             if (err) throw err;

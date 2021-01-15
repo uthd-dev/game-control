@@ -27,7 +27,8 @@ function(accessToken, refreshToken, profile, done) {
             username: profile.login,
             profileImg: profile.profile_image_url,
             provider: 'twitch',
-            shards: 0
+            shards: 0,
+            ign: ''
         });
         user.save(function(err) {
             if (err) console.log(err);
@@ -50,7 +51,7 @@ passport.deserializeUser(function(user, done) {
 
 /* AUTH ROUTES */
 
-router.get("/twitch", passport.authenticate("twitch", {forceVerify: true}));
+router.get("/twitch", passport.authenticate("twitch", {forceVerify: false}));
 router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/fail" }), function(req, res) {
     // Successful authentication, redirect home.
     res.redirect("/");
