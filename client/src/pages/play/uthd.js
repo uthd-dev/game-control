@@ -1,109 +1,191 @@
 //Component Imports
 import Link from 'next/link';
+import ButtonHelp from '../../components/ButtonHelp';
+import ButtonHurt from '../../components/buttonHurt';
 import Layout from '../../components/layout';
+import StreamerSidebar from '../../components/streamerSidebar';
 
 //Useful Stuff Imports
+import { TwitchEmbed, TwitchChat, TwitchClip, TwitchPlayer } from 'react-twitch-embed';
 import styled from 'styled-components';
 import axios from 'axios';
+let userData = {};
 
 function StreamerGameControl (props) {
+    updateUserData();
     return (
         <Layout>
+            <StreamerSidebar>
+
+            </StreamerSidebar>
             <ContentWrapper>
-                <StreamerSidebar>
-
-                </StreamerSidebar>
-                <PrimaryWrapper>
+                
+                <RowOneWrapper>
                     <Twitch>
-
+                        <TwitchEmbed 
+                            channel="uthd"
+                            id="uthd"
+                            theme="dark"
+                            muted
+                            height="100%"
+                            width="100%"
+                        />
                     </Twitch>
+                </RowOneWrapper>
+                <RowTwoWrapper>
                     <GameControl>
-                        <ButtonOne></ButtonOne>
-                        <ButtonTwo></ButtonTwo>
-                        <ButtonThree></ButtonThree>
-                        <ButtonFour></ButtonFour>
+                        <ButtonHelp title="Enchant Held Item" action="enchant"></ButtonHelp>
+
+                        <ButtonHelp title="Heal Player" action="heal-player"></ButtonHelp>
+                        <ButtonHelp title="Give Item" action="give-item"></ButtonHelp>
+                        <ButtonHelp title="Give Helpful Potion Effect" action="good-potion"></ButtonHelp>
+                        <ButtonHurt title="Give Annoying Potion Effect" action="bad-potion"></ButtonHurt>
+                        <ButtonHurt title="Clear Inventory" action="clear-inv"></ButtonHurt>
+                        <ButtonHurt title="Summon Mob" action="summon-mob"></ButtonHurt>
+                        <ButtonHurt title="etc."></ButtonHurt> 
                     </GameControl>
-                    <Info>
-                        <p>Current Shards: 100</p>
-                    </Info>
-                </PrimaryWrapper>
+                </RowTwoWrapper>
+                <RowThreeWrapper>
+                    <Stats>
+                        <h3>User Info</h3>
+                        <h5><span>Shards:</span>   Loading...</h5>
+                    </Stats>
+                    <Leaderboard>
+                        <h3>Leaderboard</h3>
+                        <h5><span>Top Player: </span>Loading...</h5>
+                    </Leaderboard>
+                </RowThreeWrapper>
             </ContentWrapper>
         </Layout>
     );
+    
 }
 
 const ContentWrapper = styled.div`
-    width: 100%;
-    height: calc(100vh - 80px);
-    z-index: 1;
+    min-height: calc(100vh - 80px);
+    width: calc(100vw - 72px);
+    margin-left: 72px;
 
     display: flex;
-    background-color: #101824;
+    flex-direction: column;
+    align-items: center;
 `;
+const RowOneWrapper = styled.div`
+    min-height: 800px;
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+    margin: 0;
+`; 
+const RowTwoWrapper = styled.div`
+    justify-content: center;
 
-const StreamerSidebar = styled.div`
-    height: 100%;
-    min-width: 72px;
-    z-index: 5;
-    background-color: #1F2A39;
-`;
-const PrimaryWrapper = styled.div`
-    height: 100%;
-    max-width: 100%;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -moz-flex;
     display: -webkit-flex;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-`; 
+
+    margin: 0;
+`;
+const RowThreeWrapper = styled.div`
+    width: 100%;
+    justify-content: center;
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: flex;
+`;
 
 const Twitch = styled.div`
-    width: 1480px;
-    min-width: 840px;
+    width: 80vw;
     height: 720px;
     background-color: gray;
     margin: 20px;
 `;
 const GameControl = styled.div`
-    diaply: flex;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    justify-self: left;
 `;
-const Info = styled.div`
+const Stats = styled.div`
+    min-height: 500px;
+    min-width: 300px;
 
-`;
+    box-shadow: 0px 0px 0px 3px #F0524C;
+    border-radius: 8px;
+    background: none;
 
-const ButtonOne = styled.div`
-    margin: 20px;
-    height: 200px;
-    width: 200px;
-    background: linear-gradient(225deg, #8C2AD9 0%, rgba(21, 210, 199, 0.85) 100%);
-    border-radius: 8px;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px;
+    h3 {
+        text-align: center;
+        font-size: 36px;
+        margin: 0 auto;
+    }
+    h5 {
+        text-align: center;
+        font-size: 20px;
+        margin: 0 auto;
+        font-weight: 200;
+    }
+    span {
+        font-size: 24px;
+        font-weight: 600;
+    }
 `;
-const ButtonTwo = styled.div`
-    margin: 20px;
-    height: 200px;
-    width: 200px;
-    background: linear-gradient(225deg, #8C2AD9 0%, rgba(21, 210, 199, 0.85) 100%);
-    border-radius: 8px;
-`;
-const ButtonThree = styled.div`
-    margin: 20px;
-    height: 200px;
-    width: 200px;
-    background: linear-gradient(225deg, #8C2AD9 0%, rgba(21, 210, 199, 0.85) 100%);
-    border-radius: 8px;
-`;
-const ButtonFour = styled.div`
-    margin: 20px;
-    height: 200px;
-    width: 200px;
-    background: linear-gradient(225deg, #8C2AD9 0%, rgba(21, 210, 199, 0.85) 100%);
-    border-radius: 8px;
-`;
+const Leaderboard = styled.div`
+    min-height: 500px;
+    min-width: 300px;
 
+    box-shadow: 0px 0px 0px 3px #F0524C;
+    border-radius: 8px;
+    background: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 25px;
+    h3 {
+        text-align: center;
+        font-size: 36px;
+        margin: 0 auto;
+    }
+    h5 {
+        text-align: center;
+        font-size: 20px;
+        margin: 0 auto;
+        font-weight: 200;
+    }
+    span {
+        font-size: 24px;
+        font-weight: 600;
+    }
+`;
+async function updateUserData() {
+    try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
+        const response = await axios.get('https://gc.uthd.dev/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
+        userData = response.data.user;
+        if(userData.loggedIn == true) {
+            document.getElementById("profileImg").src = `${userData.profileImg}`;
+            document.getElementById("profileImg").classList.remove("hidden");
+            document.getElementById("si-button").classList.add("hidden");
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
+}
 
 //Props getting
 /*

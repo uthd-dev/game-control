@@ -43,6 +43,9 @@ h5{
   font-size: 20px;
   color: white;
 }
+p {
+  color:white;
+}
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap');

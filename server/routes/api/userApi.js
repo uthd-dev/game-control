@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
                 username: req.user.username,
                 profileImg: req.user.profileImg,
                 provider: req.user.provider,
-                shards: req.user.shards,
+                stats: req.user.stats,
                 loggedIn: true
             }
         });

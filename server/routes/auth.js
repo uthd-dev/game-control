@@ -10,7 +10,7 @@ const twitchStrategy = require('@d-fischer/passport-twitch').Strategy;
 passport.use(new twitchStrategy({
   clientID: '4fz0ei80kvy753bgidq6hchabffnr3',
   clientSecret: 'j61tx748h2zvqya6yk0p7dqu3cmka7',
-  callbackURL: "http://localhost:3000/auth/twitch/callback",
+  callbackURL: "https://gc.uthd.dev/auth/twitch/callback",
   scope: "user:read:email"
 },
 function(accessToken, refreshToken, profile, done) {
@@ -27,7 +27,9 @@ function(accessToken, refreshToken, profile, done) {
             username: profile.login,
             profileImg: profile.profile_image_url,
             provider: 'twitch',
-            shards: 0,
+            stats: {
+              shards: 100,
+            },
             ign: ''
         });
         user.save(function(err) {
@@ -51,10 +53,10 @@ passport.deserializeUser(function(user, done) {
 
 /* AUTH ROUTES */
 
-router.get("/twitch", passport.authenticate("twitch", {forceVerify: false}));
+router.get("/twitch", passport.authenticate("twitch", {forceVerify: true}));
 router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/fail" }), function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("/");
+    res.redirect("/play/uthd");
 });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 // importing modules 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-var findOrCreate = require('mongoose-findorcreate');
 
 mongoose.connect("mongodb://localhost/user", {
     useNewUrlParser: true,
@@ -15,11 +14,9 @@ const User = new Schema({
     username: String,
     profileImg: String,
     provider: String,
-    shards: Number,
+    stats: Object,
     ign: String
 });
   
-User.plugin(findOrCreate);
-
 // export userschema 
  module.exports = new mongoose.model('User', User); 

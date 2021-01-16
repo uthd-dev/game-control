@@ -7,7 +7,7 @@ const session = require('express-session');
 var cookieParser   = require("cookie-parser");
 const uid = require('uid-safe');
 const connectEnsureLogin = require('connect-ensure-login');
-const mc = require('./lib/rcon/minecraftActions');
+const mc = require('./lib/rcon/minecraftApi');
 
 
 //Connect to RCON server
@@ -59,12 +59,15 @@ app
         server.use('/api', apiRoutes);
         server.use('/auth', authRoutes);
         server.get('/_next*', handle);
-        server.get('/play', (req, res) => {
-          res.end()
+        server.get('/play', connectEnsureLogin.ensureLoggedIn('/auth/twitch'), (req, res) => {
+          res.redirect('/play/uthd');
+        });
+        server.get('/', (req, res) => {
+          res.redirect('/stream');
         });
         server.get('/command', (req, res) => {
           if(req.user) {
-            if(req.user.username == "uthd") {
+            if(req.user.username == "pi_man31415") {
               if(req.query.command == "kill"){
                 mc.kill();
               }
@@ -73,6 +76,7 @@ app
               console.log(`${req.user.username} accessed the kill switch!`);
               handle(req, res);
             }
+            console.log(`User: ${req.user.username} tried to load the Kill Button Page!`);
           }else {
             res.redirect('/stream');
           }

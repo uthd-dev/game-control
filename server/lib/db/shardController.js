@@ -18,7 +18,7 @@ const setShards = (twitchUser, numberOfShards, done) => {
 }
 
 const addShards = (twitchUser, numberOfShards, done) =>  {
-    let newNumberOfShards = twitchUser.shards + numberOfShards;
+    let newNumberOfShards = twitchUser.stats.shards + numberOfShards;
     User.findOneAndUpdate({'twitchId': twitchUser.twitchId }, { 'shards': newNumberOfShards }, function(err, result) {
         if(err) {
             console.log(`Error! Could not add ${numberOfShards} shards for user: ${twitchUser.name}`);
@@ -34,7 +34,7 @@ const addShards = (twitchUser, numberOfShards, done) =>  {
 
 const spendShards = (twitchUser, numberOfShards, done) => {
     if(twitchUser.shards >= numberOfShards) {
-        let newNumberOfShards = twitchUser.shards - numberOfShards;
+        let newNumberOfShards = twitchUser.stats.shards - numberOfShards;
         User.findOneAndUpdate({'twitchId': twitchUser.twitchId }, { 'shards': newNumberOfShards }, function(err, result) {
             if(err) {
                 console.log(`Error! Could not spend ${numberOfShards} shards for user: ${twitchUser.name}`);
