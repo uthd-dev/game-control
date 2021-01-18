@@ -1,6 +1,6 @@
 //Component Imports
 import Link from 'next/link';
-import ButtonHelp from '../../components/ButtonHelp';
+import ButtonHelp from '../../components/buttonHelp';
 import ButtonHurt from '../../components/buttonHurt';
 import Layout from '../../components/layout';
 import StreamerSidebar from '../../components/streamerSidebar';
