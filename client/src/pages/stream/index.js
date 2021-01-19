@@ -1,0 +1,244 @@
+//used for client-side web requests
+import axios from 'axios';
+//Used for react function component's implementation of state
+import { useState } from 'react';
+//css-in-js
+import styled from 'styled-components';
+//Custom react "theme" for consistent "layout"
+import Layout from '../../components/layout';
+
+function Stream () {
+
+    /* CLIENT-SIDE JS */
+
+    //Init formData var & update func with useState
+    const [formData, setFormData] = useState({
+        fname: "",
+        ign: "",
+        tel: ""
+    });
+
+    /* POSTs FormData to Streamer Signup API endpoint */
+    async function handleSubmit (event) {
+        event.preventDefault(); //Stops default form submission
+        const errText = document.getElementById("signup-err"); //Shown on Error
+        const successText = document.getElementById("signup-success"); //Shown on success
+        let res = "";
+        try {
+            //POST DATA
+            res = await axios.post('/api/users/streamer-signup', formData);
+
+            //Uses the success var sent in res from server to determine status
+            if(res.data.success == true) {
+                //Shows success text & hides error text if need be
+                successText.classList.remove("hidden");
+                if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
+            }else if(res.data.success == false) {
+                //Shows Error text & updates contents, Hides success text if need be
+                errText.innerHTML = res.data.response;
+                errText.classList.remove("hidden");
+                if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+            }else {
+                //Generic Error message if a success status var is unable to be parsed
+                console.log(res);
+                errText.innerHTML = "Error! Server did not respond properly."
+                errText.classList.remove("hidden");
+                if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+            }
+        }catch(err) {
+            //Handles Axios error when unable to post, shows generic error
+            console.log(err)
+            errText.innerHTML = "Error! Server did not respond."
+            errText.classList.remove("hidden");
+            if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+        }
+    }
+    /* Form Update Handlers */ //TO-DO: Make below more compact (1 function > 3)
+    async function handleNameChange (event) {
+        setFormData({
+            fname: event.target.value,
+            ign: formData.ign,
+            tel: formData.tel
+        })
+    }
+    async function handleIGNChange (event) {
+        setFormData({
+            fname: formData.fname,
+            ign: event.target.value,
+            tel: formData.tel
+        })
+    }
+    async function handleTelChange (event) {
+        setFormData({
+            fname: formData.fname,
+            ign: formData.ign,
+            tel: event.target.value
+        })
+    }
+
+
+    /* COMPONENT HTML-IN-JS (JSX)*/
+    return(
+        <Layout>
+            <ContentWrapper>
+                <ImageWrapper>
+                    <Richie src="/home/richie.svg"></Richie>
+                </ImageWrapper>
+                <SignUpWrapper>
+                    <PageTitle>Like to Stream?</PageTitle>
+                    <PageExceprt>Sign Up now to let viewers take control of your game!</PageExceprt>
+                    <Form onSubmit={handleSubmit}>
+
+                        {/* Full Name */}
+                        <Label htmlFor="fname">Full (legal) name:</Label><br/>
+                        <Input type="text" id="fname" name="fname" autocomplete="off" value={formData.fname} onChange={handleNameChange}></Input><br/>
+
+                        {/* MC IGN */}
+                        <Label htmlFor="ign">Minecraft IGN:</Label><br/>
+                        <Input type="ign" id="ign" name="ign" value={formData.ign} onChange={handleIGNChange}></Input><br/>
+
+                        {/* Telephone Number */}
+                        <Label htmlFor="tel">Phone number:</Label><br/>
+                        <Input type="tel" id="tel" name="tel" placeholder="Optional" value={formData.tel} onChange={handleTelChange}></Input>
+
+                        <SignUpButton type="submit"><SignUpText>SIGN UP</SignUpText></SignUpButton>
+
+                        {/* Status Text handled by JS */}
+                        <ResponseErr id="signup-err" className="hidden">Error!</ResponseErr>
+                        <ResponseSuccess id="signup-success" className="hidden">Success!</ResponseSuccess>
+                    </Form>
+                </SignUpWrapper>
+            </ContentWrapper>
+        </Layout>
+    );
+}
+
+/* STYLING (CSS) */
+
+/* PAGE LAYOUT */
+const ContentWrapper = styled.div`
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+
+    display: flex;
+    background-color: white;
+`;
+
+const ImageWrapper = styled.div`
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const SignUpWrapper = styled.div`
+    flex: 2;
+    background-color: #101824;
+
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0 10px 40px;
+
+    box-shadow: -4px 0px 6px 1px rgba(0, 0, 0, 0.35);
+`;
+
+
+/* PAGE CONTENT */
+const Richie = styled.img`
+    height: 50%;
+    min-width: 600px;
+    max-width: 100%;
+    padding-left: 20px;
+`;
+
+
+
+const PageTitle = styled.h3`
+    color: white;
+    font-weight: 800;
+    font-size: 80px;
+    margin: 0;
+`;
+const PageExceprt = styled.p`
+    font-size: 24px;
+    color: #C4C4C4;
+    margin: 0 15px;
+`;
+
+
+/* SIGNUP FORM */
+
+const Form = styled.form`
+    margin: 20px;
+    margin-top: 50px;
+`;
+const Input = styled.input`
+    margin: 10px auto;
+    border-radius: 5px;
+    height: 35px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+`;
+const Label = styled.label`
+    margin-top: 20px;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+
+    color: white;
+`;
+
+const ResponseErr = styled.p`
+    color: red;
+    font-size: 16px;
+`;
+const ResponseSuccess = styled.p`
+    color: green;
+    font-size: 16px;
+`;
+
+const ButtonContainer = styled.div`
+    margin: 20px auto;
+    display: flex;
+`;
+const SignUpButton = styled.button`
+    height: 60px;
+    width: 150px;
+    background: #F0524C;
+    border-radius: 8px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    :hover {
+        box-shadow: 0px 0px 0px 3px #F0524C;
+        background: none;
+        transition: 150ms;
+    }
+    transition: 150ms;
+`;
+const LearnMoreButton = styled.div`
+    height: 72px;
+    border-radius: 8px;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    box-shadow: 0px 0px 0px 2px #F0524C;
+    cursor: pointer;
+    transition: 300ms;
+`;
+const SignUpText = styled.h5`
+    font-size: 18px;
+    margin: 0 auto;
+`;
+const LearnMoreText = styled.h5`
+    margin: 0;
+`;
+export default Stream;

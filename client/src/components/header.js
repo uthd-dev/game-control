@@ -1,9 +1,26 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
-let userData = {};
+import { useState } from 'react';
 
 function Header () {
+    const [userData, setUserData] = useState({});
+    async function updateUserData() {
+        try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
+            const response = await axios.get('http://localhost:3000/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
+            setUserData(response.data.user);
+            console.log(userData);
+            if(userData.loggedIn == true) {
+                document.getElementById("profileImg").src = `${userData.profileImg}`;
+                document.getElementById("profileImg").classList.remove("hidden");
+                document.getElementById("si-button").classList.add("hidden");
+                document.getElementById("headerGreeting").classList.remove("hidden");
+            }
+        }
+        catch(err) {
+            console.log(err);
+        }
+    }
     updateUserData();
     return (
         <HeaderWrapper>
@@ -12,7 +29,7 @@ function Header () {
                     <Link href="/"><a><HeaderText>UTHD MC</HeaderText></a></Link>
                     <HeaderMenu>
                         <a href="/auth/twitch"><SignInButton id="si-button"><SignInText>Sign in with Twitch</SignInText></SignInButton></a>
-                        <HeaderGreeting className="hidden">Welcome!</HeaderGreeting>
+                        <HeaderGreeting id="headerGreeting" className="hidden">Hi, {userData.displayName}!</HeaderGreeting>
                         <HeaderProfileImage id="profileImg" className="hidden"></HeaderProfileImage>
                     </HeaderMenu>
                 </HeaderContentWrapper>
@@ -44,6 +61,7 @@ const HeaderText = styled.h1`
 
 const HeaderProfileImage = styled.img`
     width: 50px;
+    height: 50px;
     background-color: black;
     border-radius: 100%;
     border: 2px solid #F0524C;
@@ -71,6 +89,8 @@ const SignInText = styled.h5`
 
 const HeaderMenu = styled.div`
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 `;
 
 const HeaderContentWrapper = styled.div`
@@ -80,20 +100,5 @@ const HeaderContentWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
 `;
-
-async function updateUserData() {
-    try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
-        const response = await axios.get('https://gc.uthd.dev/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
-        userData = response.data.user;
-        if(userData.loggedIn == true) {
-            document.getElementById("profileImg").src = `${userData.profileImg}`;
-            document.getElementById("profileImg").classList.remove("hidden");
-            document.getElementById("si-button").classList.add("hidden");
-        }
-    }
-    catch(err) {
-        console.log(err);
-    }
-}
 
 export default Header;

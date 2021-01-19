@@ -1,0 +1,69 @@
+const express = require("express");
+const router = express.Router();
+const passport = require('passport');
+
+
+/* TWITCH AUTH STRATEGY */
+
+const User = require('../lib/db/schema/userSchema');
+const twitchStrategy = require('@d-fischer/passport-twitch').Strategy; 
+passport.use(new twitchStrategy({
+  clientID: '4fz0ei80kvy753bgidq6hchabffnr3',
+  clientSecret: 'j61tx748h2zvqya6yk0p7dqu3cmka7',
+  callbackURL: "http://localhost:3000/auth/twitch/callback",
+  scope: "user:read:email"
+},
+function(accessToken, refreshToken, profile, done) {
+  User.findOne({'twitchId': profile.id }, 
+    function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        user = new User({
+            twitchId: profile.id,
+            fname: '',
+            tel: '',
+            displayName: profile.display_name,
+            email: profile.email,
+            username: profile.login,
+            profileImg: profile.profile_image_url,
+            provider: 'twitch',
+            stats: {
+              shards: 100,
+            },
+            ign: '',
+            streamer: {
+              onboardingStarted: false,
+              approved: false
+            }
+        });
+        user.save(function(err) {
+            if (err) console.log(err);
+            return done(err, user);
+        });
+      } else {
+          return done(err, user);
+      }
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+/* AUTH ROUTES */
+
+router.get("/twitch", passport.authenticate("twitch", {forceVerify: false}));
+router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/" }), function(req, res) {
+    // Successful authentication, redirect home.
+    if(req.session.returnTo) res.redirect(`${req.protocol}://${req.hostname}${req.session.returnTo}`);
+    else res.redirect('/');
+});
+
+module.exports = router;

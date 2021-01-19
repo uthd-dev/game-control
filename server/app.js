@@ -16,7 +16,7 @@ conn.connect();
 
 //Require Routers
 const apiRoutes = require('./routes/api/apiRouter.js');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/accts');
 
 const sessionConfig = {
   secret: uid.sync(18),
@@ -47,6 +47,7 @@ app
     .then(() => {
         const server = express();
         server.use(express.urlencoded());
+        server.use(express.json());
         server.use(express.static('../client/public'));
         
       
@@ -59,28 +60,19 @@ app
         server.use('/api', apiRoutes);
         server.use('/auth', authRoutes);
         server.get('/_next*', handle);
-        server.get('/play', connectEnsureLogin.ensureLoggedIn('/auth/twitch'), (req, res) => {
-          res.redirect('/play/uthd');
+        server.get('/play', (req, res) => {
+          if(req.user) res.redirect('/play/uthd');
+          else res.redirect('/');
         });
-        server.get('/', (req, res) => {
-          res.redirect('/stream');
-        });
-        server.get('/command', (req, res) => {
-          if(req.user) {
-            if(req.user.username == "pi_man31415") {
-              if(req.query.command == "kill"){
-                mc.kill();
-              }
-              handle(req, res);
-            }else {
-              console.log(`${req.user.username} accessed the kill switch!`);
-              handle(req, res);
-            }
-            console.log(`User: ${req.user.username} tried to load the Kill Button Page!`);
-          }else {
-            res.redirect('/stream');
+        server.get('/stream/onboarding', (req, res) => {
+          if(req.user) if(req.user.streamer.onboardingStarted || req.session.onboardingStarted) {
+            handle(req, res);
           }
-          
+          else res.redirect('/');
+        });
+        server.get('/stream*', (req, res) => {
+          if(req.user) handle(req, res);
+          else res.redirect('/');
         });
         server.get('*', handle);
         server.listen(port, (err) => {
