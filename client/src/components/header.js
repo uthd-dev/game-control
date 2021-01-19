@@ -1,27 +1,30 @@
 import styled from 'styled-components';
 import axios from 'axios';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import ddMenu from '../components/ddMenu';
 
 function Header () {
     const [userData, setUserData] = useState({});
-    async function updateUserData() {
+    useEffect(async () => {
         try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
             const response = await axios.get('http://localhost:3000/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
-            setUserData(response.data.user);
             console.log(userData);
-            if(userData.loggedIn == true) {
-                document.getElementById("profileImg").src = `${userData.profileImg}`;
-                document.getElementById("profileImg").classList.remove("hidden");
-                document.getElementById("si-button").classList.add("hidden");
-                document.getElementById("headerGreeting").classList.remove("hidden");
-            }
+            setUserData(response.data.user);
         }
         catch(err) {
             console.log(err);
         }
-    }
-    updateUserData();
+    }, []);
+    useEffect(() => {
+        if(userData.loggedIn == true) {
+            document.getElementById("profileImg").src = `${userData.profileImg}`;
+            document.getElementById("profileImg").classList.remove("hidden");
+            document.getElementById("si-button").classList.add("hidden");
+            document.getElementById("headerGreeting").classList.remove("hidden");
+        }
+    });
     return (
         <HeaderWrapper>
                 <title>Game Control | UTHD MC</title>

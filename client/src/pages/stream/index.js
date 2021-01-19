@@ -54,21 +54,21 @@ function Stream () {
         }
     }
     /* Form Update Handlers */ //TO-DO: Make below more compact (1 function > 3)
-    async function handleNameChange (event) {
+    function handleNameChange (event) {
         setFormData({
             fname: event.target.value,
             ign: formData.ign,
             tel: formData.tel
         })
     }
-    async function handleIGNChange (event) {
+    function handleIGNChange (event) {
         setFormData({
             fname: formData.fname,
             ign: event.target.value,
             tel: formData.tel
         })
     }
-    async function handleTelChange (event) {
+    function handleTelChange (event) {
         setFormData({
             fname: formData.fname,
             ign: formData.ign,
@@ -118,7 +118,8 @@ function Stream () {
 /* PAGE LAYOUT */
 const ContentWrapper = styled.div`
     width: 100%;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     z-index: 1;
 
     display: flex;

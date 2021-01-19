@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
                 profileImg: req.user.profileImg,
                 provider: req.user.provider,
                 stats: req.user.stats,
+                streamer: req.user.streamer,
                 loggedIn: true
             }
         });

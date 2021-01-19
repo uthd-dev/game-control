@@ -65,10 +65,11 @@ app
           else res.redirect('/');
         });
         server.get('/stream/onboarding', (req, res) => {
-          if(req.user) if(req.user.streamer.onboardingStarted || req.session.onboardingStarted) {
-            handle(req, res);
+          if(req.user) {
+            if(req.user.streamer.onboardingStarted) handle(req, res);
+            else res.redirect('/stream');
           }
-          else res.redirect('/');
+          else res.redirect('/stream');
         });
         server.get('/stream*', (req, res) => {
           if(req.user) handle(req, res);
