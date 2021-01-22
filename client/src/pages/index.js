@@ -4,9 +4,14 @@ import Layout from '../components/layout';
 function Home () {
     return(
         <Layout>
-            <h1>Welcome to UTHD MC!</h1>
+            <Title>Welcome to UTHD MC!</Title>
         </Layout>
     );
 }
+
+const Title = styled.h1`
+    margin: 25px 50px;
+    color: #F9FAFB;
+`;
 
 export default Home;

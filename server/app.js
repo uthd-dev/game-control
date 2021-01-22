@@ -8,6 +8,8 @@ var cookieParser   = require("cookie-parser");
 const uid = require('uid-safe');
 const connectEnsureLogin = require('connect-ensure-login');
 const mc = require('./lib/rcon/minecraftApi');
+const getAllStreamers = require('./lib/db/find/getAllStreamers');
+const approveStreamer = require('./lib/db/update/approveStreamer');
 
 
 //Connect to RCON server
@@ -50,6 +52,7 @@ app
         server.use(express.json());
         server.use(express.static('../client/public'));
         
+        
       
         server.use(session(sessionConfig));
         server.use(passport.initialize());
@@ -82,7 +85,6 @@ app
         });
 
     });
-
 module.exports.log = (message) => {
   console.log(message);
 }

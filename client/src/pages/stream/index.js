@@ -33,7 +33,7 @@ function Stream () {
                 //Shows success text & hides error text if need be
                 successText.classList.remove("hidden");
                 if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
-            }else if(res.data.success == false) {
+            }else if(res.data.success == false && res.data.response) {
                 //Shows Error text & updates contents, Hides success text if need be
                 errText.innerHTML = res.data.response;
                 errText.classList.remove("hidden");
@@ -131,6 +131,9 @@ const ImageWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    @media only screen and (max-width: 1400px) {
+        display: none;
+    }
 `;
 
 const SignUpWrapper = styled.div`
@@ -139,10 +142,19 @@ const SignUpWrapper = styled.div`
 
     display: flex;
     flex-direction: column;
-    padding: 30px 0 10px 40px;
+    align-items: center;
+    padding: 25px;
 
     box-shadow: -4px 0px 6px 1px rgba(0, 0, 0, 0.35);
+    @media only screen and (max-width: 1400px) {
+        box-shadow: none;
+        flex: 1;
+        margin: 0 auto;
+        align-items: center;
+        justify-content: center;
+    }
 `;
+
 
 
 /* PAGE CONTENT */
@@ -151,15 +163,18 @@ const Richie = styled.img`
     min-width: 600px;
     max-width: 100%;
     padding-left: 20px;
+    @media only screen and (max-width: 1400px) {
+        display: none;
+    }
 `;
-
-
-
 const PageTitle = styled.h3`
     color: white;
     font-weight: 800;
     font-size: 80px;
     margin: 0;
+    @media only screen and (max-width: 1400px) {
+        font-size: 60px;
+    }
 `;
 const PageExceprt = styled.p`
     font-size: 24px;
@@ -168,19 +183,37 @@ const PageExceprt = styled.p`
 `;
 
 
-/* SIGNUP FORM */
 
+/* SIGNUP FORM */
 const Form = styled.form`
-    margin: 20px;
-    margin-top: 50px;
+    width: 25vw;
+    height: auto;
+    margin: 50px auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-shadow: 0px 0px 0px 3px #F0524C;
+    border-radius: 8px;
+
+    @media only screen and (max-width: 1400px) {
+        width: 75%;
+    }
 `;
 const Input = styled.input`
     margin: 10px auto;
     border-radius: 5px;
-    height: 35px;
+    height: auto;
+    min-height: 30px;
+    width: 50%;
+    min-width: 250px;
     border: none;
     outline: none;
     padding-left: 10px;
+    @media only screen and (max-width: 1400px) {
+        height: 5vh
+    }
 `;
 const Label = styled.label`
     margin-top: 20px;
@@ -191,6 +224,9 @@ const Label = styled.label`
     color: white;
 `;
 
+
+
+/* FORM RESPONSE TEXT */
 const ResponseErr = styled.p`
     color: red;
     font-size: 16px;
@@ -200,46 +236,38 @@ const ResponseSuccess = styled.p`
     font-size: 16px;
 `;
 
-const ButtonContainer = styled.div`
-    margin: 20px auto;
-    display: flex;
-`;
+
+
+/* SIGN UP BUTTON */
 const SignUpButton = styled.button`
     height: 60px;
     width: 150px;
+    margin: 20px 10px;
+    padding: 0 25px;
+
     background: #F0524C;
     border-radius: 8px;
-    padding: 0 25px;
+    
     display: flex;
     align-items: center;
-    margin-top: 20px;
-    margin-right: 10px;
-    cursor: pointer;
-    outline: none;
+    
     border: none;
+
     :hover {
         box-shadow: 0px 0px 0px 3px #F0524C;
         background: none;
         transition: 150ms;
     }
+
+    @media only screen and (max-width: 1400px) {
+        margin: 20px 0;
+    }
+    
     transition: 150ms;
-`;
-const LearnMoreButton = styled.div`
-    height: 72px;
-    border-radius: 8px;
-    padding: 0 25px;
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    box-shadow: 0px 0px 0px 2px #F0524C;
-    cursor: pointer;
-    transition: 300ms;
-`;
+    `;
+
 const SignUpText = styled.h5`
     font-size: 18px;
     margin: 0 auto;
-`;
-const LearnMoreText = styled.h5`
-    margin: 0;
 `;
 export default Stream;

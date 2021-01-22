@@ -25,6 +25,11 @@ function Header () {
             document.getElementById("headerGreeting").classList.remove("hidden");
         }
     });
+
+    function profileClickHandler() {
+        document.getElementById("dd-menu").classList.toggle("hidden");
+
+    }
     return (
         <HeaderWrapper>
                 <title>Game Control | UTHD MC</title>
@@ -33,12 +38,24 @@ function Header () {
                     <HeaderMenu>
                         <a href="/auth/twitch"><SignInButton id="si-button"><SignInText>Sign in with Twitch</SignInText></SignInButton></a>
                         <HeaderGreeting id="headerGreeting" className="hidden">Hi, {userData.displayName}!</HeaderGreeting>
-                        <HeaderProfileImage id="profileImg" className="hidden"></HeaderProfileImage>
+                        <HeaderProfileImage id="profileImg" className="hidden" onClick={profileClickHandler}></HeaderProfileImage>
+                        <Menu id="dd-menu" className="hidden"></Menu>
                     </HeaderMenu>
                 </HeaderContentWrapper>
             </HeaderWrapper>
     );
 }
+
+const Menu = styled.div`
+    position: absolute;
+
+    height: 400px;
+    min-width: 200px;
+    background-color: red;
+    z-index: 150;
+    top: 80px;
+    right: 20px;
+`;
 
 const HeaderWrapper = styled.div`
     height: 80px;
@@ -59,7 +76,9 @@ const HeaderWrapper = styled.div`
 `;
 
 const HeaderText = styled.h1`
-
+@media only screen and (max-width: 1400px) {
+    font-size: 36px;
+}
 `;
 
 const HeaderProfileImage = styled.img`
@@ -69,6 +88,10 @@ const HeaderProfileImage = styled.img`
     border-radius: 100%;
     border: 2px solid #F0524C;
     cursor: pointer;
+    :hover {
+        opacity: 75%;
+        transition: 200ms;
+    }
 `;
 const HeaderGreeting = styled.h3`
     color: white;

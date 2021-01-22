@@ -14,6 +14,7 @@ function Layout ({children}) {
 
 const PageWrapper = styled.div`
     height: auto;
+    min-height: calc(100vh - 80px);
     overflow: hidden;
     background-color: #101824;
     background-size: auto;

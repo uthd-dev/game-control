@@ -9,11 +9,11 @@ function ddMenu () {
 }
 
 const Menu = styled.div`
-    position: relative;
-    min-height: 200px;
-    min-width: 100px;
+    position: absolute;
     color: red;
-    z-index: 15;
+    z-index: 150;
+    top: 50px;
+    right: 50px;
 `;
 
 export default ddMenu;

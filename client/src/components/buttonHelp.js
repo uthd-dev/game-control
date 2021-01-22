@@ -24,6 +24,7 @@ const ButtonWrapper = styled.button`
     width: 200px;
     background: linear-gradient(225deg, #8C2AD9 0%, rgba(21, 210, 199, 0.85) 100%);
     border-radius: 8px;
+    border: none;
     cursor: pointer;
 `;
 const BtnTitle = styled.h5`
