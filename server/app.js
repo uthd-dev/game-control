@@ -86,9 +86,7 @@ app
         server.listen(port, (err) => {
             if (err) throw err;
             console.log(`Listening on port ${port}`);
+            console.log(process.env.hostUrl);
         });
 
     });
-module.exports.log = (message) => {
-  console.log(message);
-}
