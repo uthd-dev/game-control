@@ -10,7 +10,7 @@ const twitchStrategy = require('@d-fischer/passport-twitch').Strategy;
 passport.use(new twitchStrategy({
   clientID: '4fz0ei80kvy753bgidq6hchabffnr3',
   clientSecret: 'j61tx748h2zvqya6yk0p7dqu3cmka7',
-  callbackURL: "http://localhost:3000/auth/twitch/callback",
+  callbackURL: `${process.env.hostUrl}/auth/twitch/callback`,
   scope: "user:read:email"
 },
 function(accessToken, refreshToken, profile, done) {
