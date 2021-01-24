@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 function StreamerGameControl (props) {
     const [userData, setUserData] = useState({});
     useEffect(() => {
-        axios.get(`${process.env.hostUrl}/api/users`)
+        axios.get(`/api/users`)
         .then(res => {
             setUserData(res.data.user);
             if(userData.loggedIn == true) {

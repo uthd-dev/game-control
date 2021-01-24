@@ -10,8 +10,8 @@ function Home () {
                 <Wrapper>
                     <Title>Play along with your favorite streamers</Title>
                     <ButtonWrapper>
-                        <a href={`${process.env.hostUrl}/auth/twitch/?returnTo=/play?tour=true`}><SignUpButton>Sign Up</SignUpButton></a>
-                        <Link href={`${process.env.hostUrl}/how-it-works`}><a><LearnMoreButton>Learn More</LearnMoreButton></a></Link>
+                        <a href={`/auth/twitch/?returnTo=/play?tour=true`}><SignUpButton>Sign Up</SignUpButton></a>
+                        <Link href={`/how-it-works`}><a><LearnMoreButton>Learn More</LearnMoreButton></a></Link>
                     </ButtonWrapper>
                 </Wrapper>
             </Canvas>

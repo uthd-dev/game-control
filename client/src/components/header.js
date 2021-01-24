@@ -9,7 +9,7 @@ function Header () {
     const [userData, setUserData] = useState({});
     
     useEffect(async () => {
-        await axios.get(`${process.env.hostUrl}/api/users`)
+        await axios.get(`/api/users`)
         .then(res => {
             setUserData(res.data.user)
         })

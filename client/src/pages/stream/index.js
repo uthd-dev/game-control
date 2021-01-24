@@ -27,7 +27,7 @@ function Stream () {
         successText.innerHTML = "Loading...";
         try {
             //POST DATA
-            res = await axios.post(`${process.env.hostUrl}/api/users/streamer-signup`, formData);
+            res = await axios.post(`/api/users/streamer-signup`, formData);
 
             //Uses the success var sent in res from server to determine status
             if(res.data.success == true) {
