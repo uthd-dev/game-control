@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
     
-mongoose.connect("mongodb://localhost/user", {
+mongoose.connect(process.env.dbConnUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
