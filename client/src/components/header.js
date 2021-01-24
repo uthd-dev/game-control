@@ -7,22 +7,25 @@ import ddMenu from '../components/ddMenu';
 
 function Header () {
     const [userData, setUserData] = useState({});
+    
     useEffect(async () => {
-        try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
-            const response = await axios.get('http://localhost:3000/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
-            console.log(userData);
-            setUserData(response.data.user);
-        }
-        catch(err) {
-            console.log(err);
-        }
+        await axios.get(`${process.env.hostUrl}/api/users`)
+        .then(res => {
+            setUserData(res.data.user)
+        })
+        .catch(err => {
+            console.log(err)
+        });
     }, []);
+
     useEffect(() => {
         if(userData.loggedIn == true) {
             document.getElementById("profileImg").src = `${userData.profileImg}`;
             document.getElementById("profileImg").classList.remove("hidden");
             document.getElementById("si-button").classList.add("hidden");
             document.getElementById("headerGreeting").classList.remove("hidden");
+        }else{
+            document.getElementById("si-text").innerHTML = window.innerWidth < 600 ? "Sign In": "Sign in with Twitch"
         }
     });
 
@@ -36,10 +39,12 @@ function Header () {
                 <HeaderContentWrapper>
                     <Link href="/"><a><HeaderText>UTHD MC</HeaderText></a></Link>
                     <HeaderMenu>
-                        <a href="/auth/twitch"><SignInButton id="si-button"><SignInText>Sign in with Twitch</SignInText></SignInButton></a>
+                        <a href="/auth/twitch"><SignInButton id="si-button"><SignInText id="si-text">Log in with Twitch</SignInText></SignInButton></a>
                         <HeaderGreeting id="headerGreeting" className="hidden">Hi, {userData.displayName}!</HeaderGreeting>
                         <HeaderProfileImage id="profileImg" className="hidden" onClick={profileClickHandler}></HeaderProfileImage>
-                        <Menu id="dd-menu" className="hidden"></Menu>
+                        <Menu id="dd-menu" className="hidden">
+                            <Link href="/auth/logout"><a><LogOut>Log Out</LogOut></a></Link>
+                        </Menu>
                     </HeaderMenu>
                 </HeaderContentWrapper>
             </HeaderWrapper>
@@ -55,6 +60,11 @@ const Menu = styled.div`
     z-index: 150;
     top: 80px;
     right: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: beginning;
 `;
 
 const HeaderWrapper = styled.div`
@@ -77,7 +87,7 @@ const HeaderWrapper = styled.div`
 
 const HeaderText = styled.h1`
 @media only screen and (max-width: 1400px) {
-    font-size: 36px;
+    font-size: 32px;
 }
 `;
 
@@ -98,12 +108,13 @@ const HeaderGreeting = styled.h3`
 `;
 const SignInButton = styled.div`
     background-color: #9146FF;
-    height: 38px;
-    width: 200px;
+    height: 44px;
+    width: auto;
+    padding: 0 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 5px;
     :hover {
 
     }
@@ -117,6 +128,18 @@ const HeaderMenu = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+const LogOut = styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px 20px;
+    background: gray;
+    color: white;
 `;
 
 const HeaderContentWrapper = styled.div`

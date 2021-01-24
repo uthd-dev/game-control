@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function ddMenu () {
     return(
         <Menu>
-            test
+            <a href="/logout">Log Out</a>
         </Menu>
     );
 }

@@ -59,11 +59,26 @@ passport.deserializeUser(function(user, done) {
 
 /* AUTH ROUTES */
 
-router.get("/twitch", passport.authenticate("twitch", {forceVerify: false}));
+router.get("/twitch", (req, res) => {
+  if(req.query.returnTo) req.session.returnTo = req.query.returnTo;
+  passport.authenticate("twitch", {forceVerify: false}, () => {
+
+  })(req, res);
+});
+
 router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect: "/" }), function(req, res) {
     // Successful authentication, redirect home.
-    if(req.session.returnTo) res.redirect(`${req.protocol}://${req.hostname}${req.session.returnTo}`);
+    if(req.session.returnTo) {
+      let returnTo = req.session.returnTo;
+      req.session.returnTo = "/";
+      res.redirect(`http://localhost:3000${returnTo}`);
+    }
     else res.redirect('/');
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect('/');
 });
 
 module.exports = router;

@@ -32,7 +32,7 @@ const sessionConfig = {
 /* Next.JS Setup */
 
 //Next.JS Config
-const dev = true;
+const dev = false;
 const app = next({
     dev,
     dir: './client/src'
@@ -41,7 +41,7 @@ module.exports = app;
 const handle = app.getRequestHandler();
 
 //Web-Server Port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 /* Next.JS implements Express */
 app
@@ -63,10 +63,14 @@ app
         server.use('/api', apiRoutes);
         server.use('/auth', authRoutes);
         server.get('/_next*', handle);
-        server.get('/play', (req, res) => {
-          if(req.user) res.redirect('/play/uthd');
+        server.get('/play', (req,res) => {
+          res.redirect('/play/uthd');
+        });
+        server.get('/play*', (req, res) => {
+          if(req.user) handle(req, res);
           else res.redirect('/');
         });
+        
         server.get('/stream/onboarding', (req, res) => {
           if(req.user) {
             if(req.user.streamer.onboardingStarted) handle(req, res);

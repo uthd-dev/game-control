@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "next build ./client/src",
-    "production": "node server/app.js",
-    "dev": "nodemon ./server/app.js",
-    "deploy": ""
+    "start": "node server/app.js",
+    "dev": "node ./server/app.js"
   },
   "keywords": [],
   "author": "",

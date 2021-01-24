@@ -9,10 +9,22 @@ import StreamerSidebar from '../../components/streamerSidebar';
 import { TwitchEmbed, TwitchChat, TwitchClip, TwitchPlayer } from 'react-twitch-embed';
 import styled from 'styled-components';
 import axios from 'axios';
-let userData = {};
+import { useEffect, useState } from 'react';
 
 function StreamerGameControl (props) {
-    updateUserData();
+    const [userData, setUserData] = useState({});
+    useEffect(() => {
+        axios.get(`${process.env.hostUrl}/api/users`)
+        .then(res => {
+            setUserData(res.data.user);
+            if(userData.loggedIn == true) {
+                document.getElementById("profileImg").src = `${userData.profileImg}`;
+                document.getElementById("profileImg").classList.remove("hidden");
+                document.getElementById("si-button").classList.add("hidden");
+            }
+        }).catch(err => {console.log(err)});
+        
+    }, []);
     return (
         <Layout>
             <StreamerSidebar>
@@ -25,8 +37,8 @@ function StreamerGameControl (props) {
                         <TwitchEmbed 
                             channel="uthd"
                             id="uthd"
-                            theme="dark"
                             muted
+                            theme="dark"
                             height="100%"
                             width="100%"
                         />
@@ -35,7 +47,6 @@ function StreamerGameControl (props) {
                 <RowTwoWrapper>
                     <GameControl>
                         <ButtonHelp title="Enchant Held Item" action="enchant"></ButtonHelp>
-
                         <ButtonHelp title="Heal Player" action="heal-player"></ButtonHelp>
                         <ButtonHelp title="Give Item" action="give-item"></ButtonHelp>
                         <ButtonHelp title="Give Helpful Potion Effect" action="good-potion"></ButtonHelp>
@@ -172,20 +183,6 @@ const Leaderboard = styled.div`
         font-weight: 600;
     }
 `;
-async function updateUserData() {
-    try{ //Retrieve data from REST API endpoint, on success, update the profile Pic and UserData object, on failure, log the error.
-        const response = await axios.get('https://gc.uthd.dev/api/users'); //waits for axios to complete GET request to /api/users, returns an object "user"
-        userData = response.data.user;
-        if(userData.loggedIn == true) {
-            document.getElementById("profileImg").src = `${userData.profileImg}`;
-            document.getElementById("profileImg").classList.remove("hidden");
-            document.getElementById("si-button").classList.add("hidden");
-        }
-    }
-    catch(err) {
-        console.log(err);
-    }
-}
 
 //Props getting
 /*
