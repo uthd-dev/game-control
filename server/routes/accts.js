@@ -71,7 +71,7 @@ router.get("/twitch/callback", passport.authenticate("twitch", { failureRedirect
     if(req.session.returnTo) {
       let returnTo = req.session.returnTo;
       req.session.returnTo = "/";
-      res.redirect(`http://localhost:3000${returnTo}`);
+      res.redirect(`${process.env.hostUrl}${returnTo}`);
     }
     else res.redirect('/');
 });
