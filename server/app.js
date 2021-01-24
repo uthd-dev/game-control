@@ -32,9 +32,10 @@ const sessionConfig = {
 /* Next.JS Setup */
 
 //Next.JS Config
-const dev = () => {
-  if(process.env.dev == "false") return false;
-  else return true;
+const dev = false;
+if(process.env.dev){
+  if(process.env.dev == "true") dev = true;
+  else if(process.env.dev == "false") dev = false;
 }
 const app = next({
     dev,
