@@ -27,7 +27,6 @@ conn.on('auth', function() {
   console.log(`Reconnecting to RCON in 15 seconds...`);
   setTimeout(() => {
     conn.connect();
-    console.log(process.env.hostUrl);
   }, 15000);
 });
 

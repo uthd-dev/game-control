@@ -32,7 +32,10 @@ const sessionConfig = {
 /* Next.JS Setup */
 
 //Next.JS Config
-const dev = process.env.dev || true;
+const dev = () => {
+  if(process.env.dev == "false") return false;
+  else return true;
+}
 const app = next({
     dev,
     dir: './client/src'
