@@ -8,8 +8,8 @@ const passport = require('passport');
 const User = require('../lib/db/schema/userSchema');
 const twitchStrategy = require('@d-fischer/passport-twitch').Strategy; 
 passport.use(new twitchStrategy({
-  clientID: '4fz0ei80kvy753bgidq6hchabffnr3',
-  clientSecret: 'j61tx748h2zvqya6yk0p7dqu3cmka7',
+  clientID: process.env.twitchClientId,
+  clientSecret: process.env.twitchClientSecret,
   callbackURL: `${process.env.hostUrl}/auth/twitch/callback`,
   scope: "user:read:email"
 },
