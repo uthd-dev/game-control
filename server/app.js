@@ -4,12 +4,9 @@ const express = require('express');
 const next = require('next');
 const passport = require('passport');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 var cookieParser   = require("cookie-parser");
 const uid = require('uid-safe');
-const connectEnsureLogin = require('connect-ensure-login');
-const mc = require('./lib/rcon/minecraftApi');
-const getAllStreamers = require('./lib/db/find/getAllStreamers');
-const approveStreamer = require('./lib/db/update/approveStreamer');
 
 
 //Connect to RCON server
