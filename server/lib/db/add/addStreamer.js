@@ -33,7 +33,7 @@ async function setOnboardingStarted (user) {
     //Short-term; until restart
     user.streamer.onboardingStarted = true;
     //Long-term; saved to DB
-    await User.findOneAndUpdate({'twitchId': user.twitchId}, {"streamer.onboardingStarted": true}, (err) => {console.log(err)});
+    await User.findOneAndUpdate({'twitchId': user.twitchId}, {"streamer.onboardingStarted": true}, (err, result) => {err ? console.log(err) : console.log(result)});
 }
 
 exports.addStreamer = addStreamer;
