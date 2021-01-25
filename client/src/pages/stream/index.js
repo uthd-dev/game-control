@@ -23,36 +23,37 @@ function Stream () {
         event.preventDefault(); //Stops default form submission
         const errText = document.getElementById("signup-err"); //Shown on Error
         const successText = document.getElementById("signup-success"); //Shown on success
-        let res = "";
         successText.innerHTML = "Loading...";
-        try {
             //POST DATA
-            res = await axios.post(`/api/users/streamer-signup`, formData);
-
-            //Uses the success var sent in res from server to determine status
-            if(res.data.success == true) {
-                //Shows success text & hides error text if need be
-                successText.classList.remove("hidden");
-                if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
-            }else if(res.data.success == false && res.data.response) {
-                //Shows Error text & updates contents, Hides success text if need be
-                errText.innerHTML = res.data.response;
-                errText.classList.remove("hidden");
-                if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-            }else {
-                //Generic Error message if a success status var is unable to be parsed
+            await axios.post(`/api/users/streamer-signup`, formData)
+            .then((res) => {
                 console.log(res);
-                errText.innerHTML = "Error! Server did not respond properly."
-                errText.classList.remove("hidden");
-                if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-            }
-        }catch(err) {
+
+                //Uses the success var sent in res from server to determine status
+                if(res.data.success == true) {
+                    //Shows success text & hides error text if need be
+                    successText.classList.remove("hidden");
+                    if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
+                }else if(res.data.success == false && res.data.response) {
+                    //Shows Error text & updates contents, Hides success text if need be
+                    errText.innerHTML = res.data.response;
+                    errText.classList.remove("hidden");
+                    if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+                }else {
+                    //Generic Error message if a success status var is unable to be parsed
+                    console.log(res);
+                    errText.innerHTML = "Error! Server did not respond properly."
+                    errText.classList.remove("hidden");
+                    if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+                }
+        })
+        .catch(err=> {
             //Handles Axios error when unable to post, shows generic error
             console.log(err)
             errText.innerHTML = "Error! Server did not respond."
             errText.classList.remove("hidden");
             if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-        }
+        });
     }
     /* Form Update Handlers */ //TO-DO: Make below more compact (1 function > 3)
     function handleNameChange (event) {
