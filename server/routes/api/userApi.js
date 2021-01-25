@@ -45,13 +45,13 @@ router.post('/streamer-signup', (req, res) => {
         if(req.body.fname && req.body.ign) {
             //Validation
             if(fname.length <= 32 && ign.length <=16 && ign.length >= 3) {
-                if(!req.user.streamer.onboardingStarted || !req.user.streamer.approved) {
+                if(req.user.streamer.onboardingStarted == false || req.user.streamer.approved == false) {
                     const streamerInfo = {fname: fname, ign: ign, tel: req.body.tel ? `${req.body.tel}` : ""};
 
                     addStreamer.addStreamer(req.user, streamerInfo, success => {
                         if (success) {
                             console.log(`New Streamer Signup: ${fname} (${ign})`);
-                            sendResp(true, `Added Streamer. Waiting for approval...`);
+                            sendResp(true, `Success! Check your profile for when you get approved.`);
                         } else {
                             console.log(`New Streamer Signup Failed!! Streamer: ${fname} (${ign})`);
                             sendResp(false, `Uh Oh! Internal Server Error.`);
