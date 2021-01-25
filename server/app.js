@@ -24,7 +24,7 @@ const sessionConfig = {
   },
   resave: false,
   saveUninitialized: true,
-  store: new MongoStore({ url: proccess.env.dbConnUrl })
+  store: new MongoStore({ url: process.env.dbConnUrl })
 };
 
 /* Next.JS Setup */
