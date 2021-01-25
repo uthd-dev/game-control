@@ -2,7 +2,7 @@ const User = require('../schema/userSchema');
 
 async function addStreamer (user, streamerInfo, done) {
     //If a phone number is present -> Set it in the DB as well
-    if(streamerInfo.tel) await User.findOneAndUpdate({'twitchId': user.twitchId }, { "$set": {"fname": streamerInfo.tel, "ign": streamerInfo.ign, "tel": streamerInfo.tel} },  (err) => {
+    if(streamerInfo.tel) await User.findOneAndUpdate({'twitchId': user.twitchId }, { "$set": {"fname": streamerInfo.fname, "ign": streamerInfo.ign, "tel": streamerInfo.tel} },  (err) => {
         if(err) finish(true, user, done);
         else finish(false, user, done);
     });
