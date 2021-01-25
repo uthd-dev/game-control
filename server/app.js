@@ -26,7 +26,8 @@ const sessionConfig = {
     maxAge: 86400 * 1000 // 24 hours in milliseconds
   },
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  store: new MongoStore({ url: proccess.env.dbConnUrl })
 };
 
 /* Next.JS Setup */

@@ -31,7 +31,8 @@ function Stream () {
 
                 //Uses the success var sent in res from server to determine status
                 if(res.data.success == true) {
-                    //Shows success text & hides error text if need be
+                    //Shows success text & hides error text if need be\
+                    successText.innerHTML = res.data.response;
                     successText.classList.remove("hidden");
                     if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
                 }else if(res.data.success == false && res.data.response) {
