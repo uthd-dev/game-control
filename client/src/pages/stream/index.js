@@ -22,40 +22,59 @@ function Stream () {
     async function handleSubmit (event) {
         event.preventDefault(); //Stops default form submission
         const errText = document.getElementById("signup-err"); //Shown on Error
+        errText.classList.add("hidden");
+
         const successText = document.getElementById("signup-success"); //Shown on success
         successText.innerHTML = "Loading...";
-            //POST DATA
-            await axios.post(`/api/users/streamer-signup`, formData)
-            .then((res) => {
-                console.log(res);
+        successText.classList.remove("hidden");
 
-                //Uses the success var sent in res from server to determine status
-                if(res.data.success == true) {
-                    //Shows success text & hides error text if need be\
-                    successText.innerHTML = res.data.response;
-                    successText.classList.remove("hidden");
-                    if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
-                }else if(res.data.success == false && res.data.response) {
-                    //Shows Error text & updates contents, Hides success text if need be
-                    errText.innerHTML = res.data.response;
-                    errText.classList.remove("hidden");
-                    if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-                }else {
-                    //Generic Error message if a success status var is unable to be parsed
+        await setTimeout(async () => {
+            if(formData.fname && formData.ign){
+
+                //POST DATA
+                await axios.post(`/api/users/streamer-signup`, formData)
+                .then((res) => {
                     console.log(res);
-                    errText.innerHTML = "Error! Server did not respond properly."
+
+                    //Uses the success var sent in res from server to determine status
+                    if(res.data.success == true) {
+                        //Shows success text & hides error text if need be\
+                        successText.innerHTML = res.data.response;
+                        successText.classList.remove("hidden");
+                        if(!errText.classList.contains("hidden")) errText.classList.add("hidden");
+                    }
+
+                    else if(res.data.success == false && res.data.response) {
+                        //Shows Error text & updates contents, Hides success text if need be
+                        errText.innerHTML = res.data.response;
+                        errText.classList.remove("hidden");
+                        if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+                    }
+
+                    else {
+                        //Generic Error message if a success status var is unable to be parsed
+                        console.log(res);
+                        errText.innerHTML = "Error! Server did not respond properly."
+                        errText.classList.remove("hidden");
+                        if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+                    }
+                })
+                .catch(err=> {
+                    //Handles Axios error when unable to post, shows generic error
+                    console.log(err)
+                    errText.innerHTML = "Error! Server did not respond."
                     errText.classList.remove("hidden");
                     if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-                }
-        })
-        .catch(err=> {
-            //Handles Axios error when unable to post, shows generic error
-            console.log(err)
-            errText.innerHTML = "Error! Server did not respond."
-            errText.classList.remove("hidden");
-            if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
-        });
+                });
+            }
+            else {
+                errText.innerHTML = "Please fill out the required fields.";
+                errText.classList.remove("hidden");
+                if(!successText.classList.contains("hidden")) successText.classList.add("hidden");
+            }
+        }, 100);
     }
+    
     /* Form Update Handlers */ //TO-DO: Make below more compact (1 function > 3)
     function handleNameChange (event) {
         setFormData({
@@ -93,11 +112,11 @@ function Stream () {
                     <Form onSubmit={handleSubmit}>
 
                         {/* Full Name */}
-                        <Label htmlFor="fname">Full (legal) name:</Label><br/>
+                        <Label htmlFor="fname">Full (legal) name: <span>*</span></Label><br/>
                         <Input type="text" id="fname" name="fname" autocomplete="off" value={formData.fname} onChange={handleNameChange}></Input><br/>
 
                         {/* MC IGN */}
-                        <Label htmlFor="ign">Minecraft IGN:</Label><br/>
+                        <Label htmlFor="ign">Minecraft IGN: <span>*</span></Label><br/>
                         <Input type="ign" id="ign" name="ign" value={formData.ign} onChange={handleIGNChange}></Input><br/>
 
                         {/* Telephone Number */}
@@ -121,19 +140,21 @@ function Stream () {
 /* PAGE LAYOUT */
 const ContentWrapper = styled.div`
     width: 100%;
-    height: auto;
     min-height: 100vh;
     z-index: 1;
 
     display: flex;
     background-color: white;
+
 `;
 
 const ImageWrapper = styled.div`
     flex: 1;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    
     @media only screen and (max-width: 1400px) {
         display: none;
     }
@@ -142,19 +163,19 @@ const ImageWrapper = styled.div`
 const SignUpWrapper = styled.div`
     flex: 2;
     background-color: #101824;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 25px;
 
     box-shadow: -4px 0px 6px 1px rgba(0, 0, 0, 0.35);
+
     @media only screen and (max-width: 1400px) {
         box-shadow: none;
         flex: 1;
+        display: block;
         margin: 0 auto;
-        align-items: center;
-        justify-content: center;
     }
 `;
 
@@ -166,6 +187,7 @@ const Richie = styled.img`
     min-width: 600px;
     max-width: 100%;
     padding-left: 20px;
+
     @media only screen and (max-width: 1400px) {
         display: none;
     }
@@ -174,7 +196,10 @@ const PageTitle = styled.h3`
     color: white;
     font-weight: 800;
     font-size: 80px;
-    margin: 0;
+
+    margin: 0 auto;
+    text-align: center;
+
     @media only screen and (max-width: 1400px) {
         font-size: 60px;
     }
@@ -182,7 +207,9 @@ const PageTitle = styled.h3`
 const PageExceprt = styled.p`
     font-size: 24px;
     color: #C4C4C4;
-    margin: 0 15px;
+
+    margin: 0 auto;
+    text-align: center;
 `;
 
 
@@ -225,6 +252,10 @@ const Label = styled.label`
     font-size: 1em;
 
     color: white;
+
+    span {
+        color: red;
+    }
 `;
 
 
@@ -233,10 +264,12 @@ const Label = styled.label`
 const ResponseErr = styled.p`
     color: red;
     font-size: 16px;
+    margin: 10px 20px;
 `;
 const ResponseSuccess = styled.p`
     color: green;
     font-size: 16px;
+    margin: 10px 20px;
 `;
 
 
@@ -255,6 +288,8 @@ const SignUpButton = styled.button`
     align-items: center;
     
     border: none;
+
+    cursor: pointer;
 
     :hover {
         box-shadow: 0px 0px 0px 3px #F0524C;

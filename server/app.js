@@ -1,90 +1,84 @@
 #!/usr/bin/env node
 /* IMPORT MODULES */
-const express = require('express');
-const next = require('next');
-const passport = require('passport');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-var cookieParser   = require("cookie-parser");
-const uid = require('uid-safe');
+require('dotenv').config()
+
+const express = require('express')
+const app = express();
+const server = require('http').Server(app)
+const next = require('next')
 
 
-//Connect to RCON server
-const conn = require('./lib/rcon/rcon');
-conn.connect();
+/* Authentication */
+const passport = require('passport')
 
-//Require Routers
-const apiRoutes = require('./routes/api/apiRouter.js');
-const authRoutes = require('./routes/accts');
+/* Sessions */
+const cookieParser = require('./lib/sessions').cookieParser;
+const sessionManager = require('./lib/sessions').sessionManager;
 
-const sessionConfig = {
-  secret: uid.sync(18),
-  cookie: {
-    maxAge: 86400 * 1000 // 24 hours in milliseconds
-  },
-  resave: false,
-  saveUninitialized: true,
-  store: new MongoStore({ url: process.env.dbConnUrl })
-};
+/* Socket.io */
+const io = require('socket.io')(server)
+const socketServer = require('./lib/socket.io/socketServer').socketServer(io)
+
+/* RCON */
+const conn = require('./lib/rcon/rcon')
+conn.connect()
+
+/* Routing */
+const apiRoutes = require('./routes/api/apiRouter.js')
+const authRoutes = require('./routes/accts')
+
+
 
 /* Next.JS Setup */
 
 //Next.JS Config
-let dev = false;
-if(process.env.dev){
-  if(process.env.dev == "true") dev = true;
-  else if(process.env.dev == "false") dev = false;
-}
-const app = next({
+let dev = process.env.NODE_ENV !== 'production';
+const nextApp = next({
     dev,
     dir: './client/src'
 });
-module.exports = app;
-const handle = app.getRequestHandler();
+const handle = nextApp.getRequestHandler();
 
 //Web-Server Port
-const port = process.env.PORT || 80;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 80;
 
 /* Next.JS implements Express */
-app
+nextApp
     .prepare()
     .then(() => {
-        const server = express();
-        server.use(express.urlencoded());
-        server.use(express.json());
-        server.use(express.static('../client/public'));
-        
-        
+        app.use(express.urlencoded());
+        app.use(express.json());
+        app.use(express.static('../client/public'));
       
-        server.use(session(sessionConfig));
-        server.use(passport.initialize());
-        server.use(passport.session());
-        server.use(cookieParser());
+        app.use(sessionManager);
+        app.use(passport.initialize());
+        app.use(passport.session());
+        app.use(cookieParser());
 
         /* ROUTING */
-        server.use('/api', apiRoutes);
-        server.use('/auth', authRoutes);
-        server.get('/_next*', handle);
-        server.get('/play', (req,res) => {
+        app.use('/api', apiRoutes);
+        app.use('/auth', authRoutes);
+        app.get('/_next*', handle);
+        app.get('/play', (req,res) => {
           res.redirect('/play/uthd');
         });
-        server.get('/play*', (req, res) => {
+        app.get('/play*', (req, res) => {
           if(req.user) handle(req, res);
           else res.redirect('/');
         });
         
-        server.get('/stream/onboarding', (req, res) => {
+        app.get('/stream/onboarding', (req, res) => {
           if(req.user) {
             if(req.user.streamer.onboardingStarted) handle(req, res);
             else res.redirect('/stream');
           }
           else res.redirect('/stream');
         });
-        server.get('/stream*', (req, res) => {
+        app.get('/stream*', (req, res) => {
           if(req.user) handle(req, res);
           else res.redirect('/');
         });
-        server.get('*', handle);
+        app.get('*', handle);
         server.listen(port, (err) => {
             if (err) throw err;
             console.log(`Listening on port ${port}`);

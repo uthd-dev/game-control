@@ -11,6 +11,14 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+/* Socket.io */
+import { io } from "socket.io-client";
+const socket = io();
+console.log('yo');
+socket.on('connect', () => {
+    console.log(`Socket connection established!`);
+});
+
 function StreamerGameControl (props) {
     const [userData, setUserData] = useState({});
     useEffect(() => {
@@ -23,7 +31,6 @@ function StreamerGameControl (props) {
                 document.getElementById("si-button").classList.add("hidden");
             }
         }).catch(err => {console.log(err)});
-        
     }, []);
     return (
         <Layout>
