@@ -3,10 +3,10 @@ const cookieParser = require('../sessions').cookieParser;
 const passportSocketIo = require('passport.socketio');
 
 
-module.exports.socketServer = (io) => {
+exports = module.exports = (io) => {
     io.use(passportSocketIo.authorize({   /* From: https://github.com/jfromaniello/passport.socketio */
         cookieParser: cookieParser,       
-        key:          'express.sid',       // the name of the cookie where express/connect stores its session_id
+        key:          'connect.sid',       // the name of the cookie where express/connect stores its session_id
         secret:       sessionConfig.secret,    // the session_secret to parse the cookie
         store:        sessionConfig.store,        // we NEED to use a sessionstore. no memorystore please
         success:      onAuthorizeSuccess,  // *optional* callback on success - read more below
@@ -23,7 +23,9 @@ module.exports.socketServer = (io) => {
         return accept(new Error(message)); //Deny due to non-crit. err.
     }
 
-    io.on("connection", (socket) => {
-        console.log(socket.id);
+    io.on('connection', function(socket){
+        if (socket.request.user && socket.request.user.logged_in) {
+            socket.emit("update-userData", socket.request.user);
+        }
     });
 }

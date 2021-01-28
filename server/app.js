@@ -15,10 +15,6 @@ const passport = require('passport')
 const cookieParser = require('./lib/sessions').cookieParser;
 const sessionManager = require('./lib/sessions').sessionManager;
 
-/* Socket.io */
-const io = require('socket.io')(server)
-const socketServer = require('./lib/socket.io/socketServer').socketServer(io)
-
 /* RCON */
 const conn = require('./lib/rcon/rcon')
 conn.connect()
@@ -86,3 +82,7 @@ nextApp
         });
 
     });
+
+/* Socket.io */
+const io = require('socket.io')(server)
+const socketServer = require('./lib/socket.io/socketServer')(io)

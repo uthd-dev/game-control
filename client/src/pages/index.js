@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import Layout from '../components/layout';
 
+
 import Link from 'next/link';
+
 
 function Home () {
     return(

@@ -8,29 +8,24 @@ import StreamerSidebar from '../../components/streamerSidebar';
 //Useful Stuff Imports
 import { TwitchEmbed, TwitchChat, TwitchClip, TwitchPlayer } from 'react-twitch-embed';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 /* Socket.io */
 import { io } from "socket.io-client";
 const socket = io();
-console.log('yo');
-socket.on('connect', () => {
-    console.log(`Socket connection established!`);
-});
+
+
 
 function StreamerGameControl (props) {
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState();
     useEffect(() => {
-        axios.get(`/api/users`)
-        .then(res => {
-            setUserData(res.data.user);
-            if(userData.loggedIn == true) {
-                document.getElementById("profileImg").src = `${userData.profileImg}`;
-                document.getElementById("profileImg").classList.remove("hidden");
-                document.getElementById("si-button").classList.add("hidden");
-            }
-        }).catch(err => {console.log(err)});
+        let userShardsElement = document.getElementById("user-shards");
+        socket.on('connect', () => {
+            console.log(`Socket connection established!`);
+        });
+        socket.on('update-userData', (data) => {
+            setUserData(data);
+        });
     }, []);
     return (
         <Layout>
@@ -66,7 +61,7 @@ function StreamerGameControl (props) {
                 <RowThreeWrapper>
                     <Stats>
                         <h3>User Info</h3>
-                        <h5><span>Shards:</span>   Loading...</h5>
+                        <h5><span>Shards: </span>{userData ? userData.stats.shards : `Loading...`}</h5>
                     </Stats>
                     <Leaderboard>
                         <h3>Leaderboard</h3>
