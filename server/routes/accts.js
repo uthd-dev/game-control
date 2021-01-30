@@ -35,7 +35,8 @@ function(accessToken, refreshToken, profile, done) {
             ign: '',
             streamer: {
               onboardingStarted: false,
-              approved: false
+              approved: false,
+              live: false
             }
         });
         user.save(function(err) {

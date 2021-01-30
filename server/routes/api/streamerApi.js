@@ -1,4 +1,4 @@
-const streamerDB = require('../../lib/db/find/getAllStreamers');
+const streamerDB = require('../../lib/db/find/streamers');
 const express = require("express");
 const router = express.Router();
 

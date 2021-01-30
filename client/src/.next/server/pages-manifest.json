@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/play/uthd": "pages/play/uthd.js"
+  "/play/uthd": "pages/play/uthd.js",
+  "/admin/dashboard": "pages/admin/dashboard.js"
 }

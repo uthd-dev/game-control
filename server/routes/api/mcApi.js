@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mcActionsDB = require('../../lib/db/schema/mcActionsSchema');
-const mcApi = require('../../lib/rcon/minecraftApi');
+const mcApi = require('../../lib/mc/minecraftApi');
 
 const connectEnsureLogin = require('connect-ensure-login');
 

@@ -5,7 +5,7 @@ import { useState } from 'react';
 //css-in-js
 import styled from 'styled-components';
 //Custom react "theme" for consistent "layout"
-import Layout from '../../components/layout';
+import Layout from '../../components/layout-components/layout';
 
 function Stream () {
 
