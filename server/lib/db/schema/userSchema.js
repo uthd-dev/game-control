@@ -19,6 +19,8 @@ const User = new Schema({
   stats: Object,
   ign: String,
   streamer: Object,
+  role: String,
+  online: Boolean,
 });
 
 // export userschema

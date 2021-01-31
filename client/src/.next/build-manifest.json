@@ -24,10 +24,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admin/dashboard": [
+    "/admin/[slug]": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/admin/dashboard.js"
+      "static/chunks/pages/admin/[slug].js"
     ],
     "/play/uthd": [
       "static/chunks/main.js",

@@ -47,6 +47,7 @@
     "socket.io-client": "^3.1.0",
     "styled-components": "^5.2.1",
     "swr": "^0.3.9",
+    "twitch": "^4.4.6",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {

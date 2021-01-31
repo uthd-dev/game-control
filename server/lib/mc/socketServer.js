@@ -1,3 +1,1 @@
-exports = module.exports = (io) => {
-
-}
+exports = module.exports = (io) => {};

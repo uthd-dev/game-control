@@ -49,6 +49,12 @@ nextApp.prepare().then(() => {
   app.get("/play", (req, res) => {
     res.redirect("/play/uthd");
   });
+  app.get("/admin*", (req, res) => {
+    if (req.user) {
+      if (req.user.role == "admin") handle(req, res);
+      else res.redirect("/");
+    } else res.redirect("/");
+  });
   app.get("/play*", (req, res) => {
     if (req.user) handle(req, res);
     else res.redirect("/");

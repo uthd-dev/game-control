@@ -17,11 +17,9 @@ const socket = io("/api/users/ws");
 function StreamerGameControl(props) {
   const [userData, setUserData] = useState();
   const [streamerData, setStreamerData] = useState();
+
   useEffect(() => {
-    let userShardsElement = document.getElementById("user-shards");
-    socket.on("connect", () => {
-      console.log(`Socket connection established!`);
-    });
+    socket.on("connect", () => {});
     socket.on("update-userData", (data) => {
       setUserData(data);
     });
@@ -50,8 +48,14 @@ function StreamerGameControl(props) {
             <ButtonHelp title="Enchant Held Item" action="enchant"></ButtonHelp>
             <ButtonHelp title="Heal Player" action="heal-player"></ButtonHelp>
             <ButtonHelp title="Give Item" action="give-item"></ButtonHelp>
-            <ButtonHelp title="Give Good Potion Effect" action="good-potion"></ButtonHelp>
-            <ButtonHurt title="Give Bad Potion Effect" action="bad-potion"></ButtonHurt>
+            <ButtonHelp
+              title="Give Good Potion Effect"
+              action="good-potion"
+            ></ButtonHelp>
+            <ButtonHurt
+              title="Give Bad Potion Effect"
+              action="bad-potion"
+            ></ButtonHurt>
             <ButtonHurt title="Clear Inventory" action="clear-inv"></ButtonHurt>
             <ButtonHurt title="Summon Mob" action="summon-mob"></ButtonHurt>
             <ButtonHurt title="etc."></ButtonHurt>

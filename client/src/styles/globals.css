@@ -14,29 +14,29 @@ a {
 * {
   box-sizing: border-box;
 }
- .hidden {
-   display: none !important;
-   flex: 0;
-   transition: 300ms;
- }
+.hidden {
+  display: none !important;
+  flex: 0;
+  transition: 300ms;
+}
 
- h1{
+h1 {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 800;
   font-size: 48px;
-  color: #F0524C;
+  color: #f0524c;
 }
 
-h3{
+h3 {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 800;
   font-size: 20px;
-  color: #93C5FD;
+  color: #93c5fd;
   padding: 10px;
 }
-h5{
+h5 {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 400;
@@ -44,8 +44,16 @@ h5{
   color: white;
 }
 p {
-  color:white;
+  color: white;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap');
+.sidebar-selected {
+  border: 1px solid #ff5953;
+  box-shadow: 2px 3px 2px rgba(75, 75, 75, 1);
+}
+.sidebar-selected h5 {
+  font-weight: 600;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nerko+One&display=swap");
