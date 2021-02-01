@@ -2,6 +2,10 @@
 Giving streamers more options to interact with their viewers, live.
 
 ### To Install:
+NOTE: This is not needed nor intended to be installed by streamers who wish to use the platform. If you want to use this for yourself, please sign up on our hosted instance at https://play.uthd.dev
+
+If you are a developer and would like to run this platform as a learning tool, follow the steps below
+
 1. Clone this repo `git clone`
 2. Install dependencies `npm install`
 3. Setup Env. vars: `NODE_ENV, dbConnUrl, hostUrl, PORT, twitchClientId, twitchClientSecret, DISCORD_BOT_TOKEN, DISCORD_BOT_PREFIX`
