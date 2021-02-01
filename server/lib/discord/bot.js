@@ -1,5 +1,8 @@
 const Discord = require('discord.js')
 const client = new Discord.Client();
+
+const commands = require('./commands')(client);
+
 const ws = require('../fontendWS/socketServer');
 var isOnline = false;
 

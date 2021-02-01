@@ -7,8 +7,8 @@ function Header() {
   const [userData, setUserData] = useState({});
   const [navLinks, setNavLinks] = useState();
   const [returnTo, setReturnTo] = useState();
-  useEffect(async () => {
-    await axios
+  useEffect(() => {
+    axios
       .get(`/api/users`)
       .then((res) => {
         setUserData(res.data.user);
@@ -18,19 +18,21 @@ function Header() {
       });
   }, []);
 
-  useEffect(async () => {
-    await axios
-      .get(`/api/nav`)
-      .then((res) => {
-        setNavLinks(res.data.nav);
-      })
-      .catch((err) => {
-        console.log(err);
-      }); 
-  }, []);
+  useEffect(() => {
+    if (userData.loggedIn) {
+      axios
+        .get(`/api/nav`)
+        .then((res) => {
+          setNavLinks(res.data.nav);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [userData]);
 
   useEffect(() => {
-    if (userData.loggedIn == true) {
+    if (userData.loggedIn) {
       document.getElementById("profileImg").src = `${userData.profileImg}`;
       document.getElementById("profileImg").classList.remove("hidden");
       document.getElementById("si-button").classList.add("hidden");
