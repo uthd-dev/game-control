@@ -26,7 +26,7 @@ If you are a developer and would like to run this platform as a learning tool, f
 
          DISCORD_BOT_PREFIX: Prefix for Discord Bot Commands
 
-4. *(Optional)* Build & Pre-render the frontend with Next.JS `npm run build` (*Only need if NODE_ENV is* `production`)
+4. *(Optional)* Build & Pre-render the frontend with Next.JS `npm run build` (*Only needed if NODE_ENV is* `production`)
 5. Start the application `npm run start`
 6. *(Optional)* To access the dashboard and start the discord bot, change the field `role` for your user, in the `users` collection of your MongoDB database to `admin`
 *NOTE: Your user only gets created in the DB after you've logged in at least once*
