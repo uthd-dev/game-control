@@ -9,11 +9,17 @@ Giving streamers more options to interact with their viewers, live.
    - Declare them in your web host
    
 *NODE_ENV: Standard NODE_ENV env var, use `production` to use next.js pre-rendered pages & optimizations, defaults to using next.js dev mode with hot-reload & page gen*
+
 *dbConnUrl: should be a valid credentials & DB incl. MongoDB Connection URL*
+
 *twitchClientCredentials: From Twitch Dev Application*
+
 *hostUrl: URL of host eg. http://localhost:3000, make sure that whatever this url is, with /auth/twitch/callback, is added to the authorized callbacks in your Twitch Application Settings*
+
 *PORT: Port to run the web server on, WebSockets are run on the same port*
+
 *DISCORD_BOT_TOKEN: Bot Token from Discord Dev Application*
+
 *DISCORD_BOT_PREFIX: Prefix for Discord Bot Commands*
 
 4. Start the application `npm run start`
