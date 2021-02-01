@@ -7,6 +7,7 @@ Giving streamers more options to interact with their viewers, live.
 3. Setup Env. vars: `NODE_ENV, dbConnUrl, hostUrl, PORT, twitchClientId, twitchClientSecret, DISCORD_BOT_TOKEN, DISCORD_BOT_PREFIX`
    - Create a .env file
    - Declare them in your web host
+   
 *NODE_ENV: Standard NODE_ENV env var, use `production` to use next.js pre-rendered pages & optimizations, defaults to using next.js dev mode with hot-reload & page gen*
 *dbConnUrl: should be a valid credentials & DB incl. MongoDB Connection URL*
 *twitchClientCredentials: From Twitch Dev Application*
