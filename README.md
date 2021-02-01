@@ -1,4 +1,4 @@
-# Untethered Gaming
+# UTHD Gaming
 Giving streamers more options to interact with their viewers, live.
 
 ### To Install:
