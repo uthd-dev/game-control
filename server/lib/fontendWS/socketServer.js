@@ -4,10 +4,19 @@ const passportSocketIo = require("passport.socketio");
 
 const streamerDB = require("../db/find/streamers");
 const userDB = require("../db/find/users");
+const discord = require("../discord/bot");
 
-exports = module.exports = (io) => {
-  const userSocket = io.of("/api/users/ws");
-  const adminSocket = io.of("/api/admin/ws");
+let userSocket;
+let adminSocket;
+
+function init (io) {
+  userSocket = io.of("/api/users/ws");
+  adminSocket = io.of("/api/admin/ws");
+}
+
+ function wsServer (io) {
+
+  init(io);
 
   /* REGULAR USER WS */
   userSocket.use(
@@ -37,7 +46,7 @@ exports = module.exports = (io) => {
       userDB
         .setOnlinePlayerStatus(socket.request.user.username, true)
         .then(() => {
-          emitAdminStats(adminSocket, userSocket);
+          emitAdminStats();
         })
         .catch((err) => {
           console.log(err);
@@ -47,7 +56,7 @@ exports = module.exports = (io) => {
       userDB
         .setOnlinePlayerStatus(socket.request.user.username, false)
         .then(() => {
-          emitAdminStats(adminSocket, userSocket);
+          emitAdminStats();
         })
         .catch((err) => {
           console.log(err);
@@ -84,25 +93,36 @@ exports = module.exports = (io) => {
       socket.request.user.logged_in &&
       socket.request.user.role == "admin"
     ) {
-      emitAdminStats(adminSocket, userSocket);
+      emitAdminStats();
       socket.emit("update-userData", socket.request.user);
       socket.on("get-stats", () => {
-        emitAdminStats(adminSocket, userSocket);
+        console.log('get-stats');
+        emitAdminStats();
+      });
+      socket.on("toggle-discord", () => {
+        console.log(`toggle discord event from: ${discord.isOnline()}`);
+        if(discord.isOnline()) discord.logout();
+        else discord.login();
       });
     }
   });
 };
 
-/* GLOBAL EMITS */
-function emitAdminStats(adminSocket, userSocket) {
+function emitAdminStats() {
   Promise.all([streamerDB.getLiveStreamerCount, userDB.getOnlinePlayerCount])
     .then((res) => {
       adminSocket.emit("stats", {
         liveStreamCount: res[0],
         onlinePlayerCount: res[1],
+        connectedServerCount: 0,
+        discordIsOnline: discord.isOnline(),
       });
     })
     .catch((err) => {
       console.log(err);
     });
 }
+
+module.exports.server = wsServer;
+module.exports.emitAdminStats = emitAdminStats;
+

@@ -33,6 +33,8 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 80;
 
 /* Next.JS implements Express */
 nextApp.prepare().then(() => {
+  init();
+
   app.use(express.urlencoded());
   app.use(express.json());
   app.use(express.static("../client/public"));
@@ -75,8 +77,14 @@ nextApp.prepare().then(() => {
     if (err) throw err;
     console.log(`Listening on port ${port}`);
   });
-});
+}).catch(err => {throw err});
 
-/* Socket.io */
-const io = require("socket.io")(server);
-const socketServer = require("./lib/fontendWS/socketServer")(io);
+function init() {
+
+  /* Socket.io */
+  const io = require("socket.io")(server);
+  const socketServer = require("./lib/fontendWS/socketServer").server(io);
+
+  /* Discord Bot */
+  const discord = require('./lib/discord/bot');
+}

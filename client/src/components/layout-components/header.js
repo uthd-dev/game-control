@@ -26,7 +26,7 @@ function Header() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); 
   }, []);
 
   useEffect(() => {
@@ -187,6 +187,11 @@ const NavLink = styled.div`
   padding: 10px 20px;
   background: linear-gradient(64.96deg, #111111 0%, rgba(79, 79, 79, 0.2) 100%);
   color: #f5f5f5;
+  :hover {
+    opacity: 80%;
+    transition: 100ms;
+  }
+  transition: 300ms;
 `;
 
 const HeaderContentWrapper = styled.div`

@@ -13,6 +13,7 @@ function Dashboard(props) {
     liveStreamCount: "...",
     liveServerCount: "...",
     onlinePlayerCount: "...",
+    discordIsOnline: false
   });
   useEffect(() => {
     socket.on("connect", () => {
@@ -31,11 +32,18 @@ function Dashboard(props) {
   useEffect(() => {
     socket.emit("get-stats");
   }, []);
+
+function toggleDiscordBot() {
+  console.log(`toggle-discord`);
+  socket.emit("toggle-discord")
+}
+
   return (
     <Row>
       <Card title="Live Streamers:" value={liveData.liveStreamCount} />
-      <Card title="Online Players" value={liveData.onlinePlayerCount} />
-      <Card title="Connected Servers" value={liveData.liveServerCount} />
+      <Card title="Online Players:" value={liveData.onlinePlayerCount} />
+      <Card title="Connected Servers:" value={liveData.liveServerCount} />
+      <Card title="Discord Bot:" value={liveData.discordIsOnline ? "On" : "Off"} customClickEvent={toggleDiscordBot}/>
     </Row>
   );
 }
