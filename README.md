@@ -9,8 +9,8 @@ If you are a developer and would like to run this platform as a learning tool, f
 1. Clone this repo `git clone`
 2. Install dependencies `npm install`
 3. Setup Env. vars: `NODE_ENV, dbConnUrl, hostUrl, PORT, twitchClientId, twitchClientSecret, DISCORD_BOT_TOKEN, DISCORD_BOT_PREFIX`
-   - Create a .env file
-   - Declare them in your web host
+   - Create a .env file (NEVER COMMIT/UPLOAD THIS FILE) or
+   - Declare them in your web host (Encrypt the values you wish to protect)
    
          NODE_ENV: Standard NODE_ENV env var, use `production` to use next.js pre-rendered pages & optimizations, defaults to using next.js dev mode with hot-reload & page gen
 
