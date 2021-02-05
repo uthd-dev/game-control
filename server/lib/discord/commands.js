@@ -51,7 +51,7 @@ module.exports = (client) => {
       msg.delete();
     } else if (command == "mc") {
       msg.channel.send(
-        defaultEmbed
+        new Discord.MessageEmbed()
           .setTitle("UTHD Minecraft Server Network")
           .addFields(
             {
