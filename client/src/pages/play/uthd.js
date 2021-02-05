@@ -6,26 +6,16 @@ import StreamerSidebar from "../../components/play-components/streamerSidebar";
 
 //Useful Stuff Imports
 import styled from "styled-components";
-import dynamic from 'next/dynamic';
 import { useEffect, useState } from "react";
-import { TwitchEmbed } from "react-twitch-embed";
+import dynamic from 'next/dynamic';
+const TwitchEmbed = dynamic(
+  () => import('../../components/play-components/twitchEmbed'),
+  { ssr: false }
+)
 
 /* Socket.io */
 import { io } from "socket.io-client";
 const socket = io("/api/ws/user");
-
-const StreamPlayer = () => {
-  if(typeof window !== 'undefined') {
-    return <TwitchEmbed
-      channel="uthd"
-      id="uthd"
-      muted
-      theme="dark"
-      height="100%"
-      width="100%"
-    />
-  }else return  "Loading...";
-}
 
 function StreamerGameControl(props) {
   const [userData, setUserData] = useState();
@@ -47,7 +37,7 @@ function StreamerGameControl(props) {
       <ContentWrapper>
         <RowOneWrapper>
           <Twitch>
-            <StreamPlayer  />
+              <TwitchEmbed id="uthd" channel="uthd" />
           </Twitch>
         </RowOneWrapper>
         <RowTwoWrapper>
@@ -108,12 +98,6 @@ const RowOneWrapper = styled.div`
 `;
 const RowTwoWrapper = styled.div`
   justify-content: center;
-
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
   display: flex;
 
   margin: 0;
@@ -121,12 +105,6 @@ const RowTwoWrapper = styled.div`
 const RowThreeWrapper = styled.div`
   width: 100%;
   justify-content: center;
-
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -moz-flex;
-  display: -webkit-flex;
   display: flex;
 `;
 
