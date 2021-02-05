@@ -1,35 +1,49 @@
 const express = require("express");
 const router = express.Router();
-const addStreamer = require("../../lib/db/add/addStreamer");
+const userDB = require("../../lib/db/users");
+const streamerDB = require("../../lib/db/streamers");
 
-const connectEnsureLogin = require("connect-ensure-login");
-
-router.get("/", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  if (req.user) {
-    res.json({
-      user: {
-        twitchId: req.user.twitchId,
-        fname: req.user.fname,
-        displayName: req.user.displayName,
-        email: req.user.email,
-        tel: req.user.tel,
-        username: req.user.username,
-        ign: req.user.ign,
-        profileImg: req.user.profileImg,
-        provider: req.user.provider,
-        stats: req.user.stats,
-        streamer: req.user.streamer,
-        loggedIn: true,
-      },
-    });
-  } else {
-    res.json({
-      user: {
-        loggedIn: false,
-      },
-    });
+class User {
+  constructor(user) {
+    this.fname = user.fname;
+    this.displayName = user.displayName;
+    this.email = user.email;
+    this.tel = user.tel;
+    this.username = user.username;
+    this.ign = user.ign;
+    this.profileImg = user.profileImg;
+    this.stats = user.stats;
+    this.streamer = user.streamer;
+    this.online = user.online;
   }
+}
+
+router.get("/self", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  if (req.user)
+    res.json({
+      ...new User(req.user),
+      loggedIn: true,
+    });
+  else res.json({ loggedIn: false });
+});
+
+router.get("/:username", (req, res) => {
+  if (req.user) {
+    if (req.user.role == "admin") {
+      res.setHeader("Content-Type", "application/json");
+      userDB
+        .getUserbyUsername(`${req.params.username}`)
+        .then((user) => {
+          if (user) res.json(new User(user));
+          else res.json({});
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).end(`Internal Server Error`);
+        });
+    } else res.status(403).end(`403 Permission Denied`);
+  } else res.json({ loggedIn: false });
 });
 
 router.post("/streamer-signup", (req, res) => {
@@ -43,16 +57,13 @@ router.post("/streamer-signup", (req, res) => {
       //Validation
       if (fname.length <= 32 && ign.length <= 16 && ign.length >= 3) {
         if (req.user.streamer.onboardingStarted == false) {
-          console.log(
-            `${req.user.streamer.onboardingStarted}, ${req.user.streamer.approved}`
-          );
           const streamerInfo = {
             fname: fname,
             ign: ign,
             tel: req.body.tel ? `${req.body.tel}` : "",
           };
 
-          addStreamer.addStreamer(req.user, streamerInfo, (success) => {
+          streamerDB.addStreamer(req.user, streamerInfo, (success) => {
             if (success) {
               console.log(`New Streamer Signup: ${fname} (${ign})`);
               sendResp(

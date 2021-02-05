@@ -83,8 +83,6 @@ function init() {
 
   /* Socket.io */
   const io = require("socket.io")(server);
-  const socketServer = require("./lib/fontendWS/socketServer").server(io);
+  const socketServer = require("./lib/ws/frontend").server(io);
 
-  /* Discord Bot */
-  const discord = require('./lib/discord/bot');
 }

@@ -1,31 +1,39 @@
-const Discord = require('discord.js')
+const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const commands = require('./commands')(client);
+const commands = require("./commands")(client);
 
-const ws = require('../fontendWS/socketServer');
 var isOnline = false;
 
-client.on('ready', () => {
-    console.log(`DISCORD: Logged in as ${client.user.tag}`);
-})
+client.on("ready", () => {
+  console.log(`DISCORD: Logged in as ${client.user.tag}`);
+});
 
 module.exports.login = () => {
-    console.log('Enabling Discord bot.')
-    client.login(process.env.DISCORD_BOT_TOKEN)
-    .then(() => {
+  return new Promise((resolve, reject) => {
+    console.log("Enabling Discord bot.");
+    client
+      .login(process.env.DISCORD_BOT_TOKEN)
+      .then(() => {
         isOnline = true;
-        ws.emitAdminStats();
-    })
-    .catch(err => console.log(err));
-}
+        resolve();
+      })
+      .catch((err) => reject(new Error(err)));
+  });
+};
 
 module.exports.logout = () => {
-    client.destroy()
-    isOnline = false;
-    ws.emitAdminStats();
-}
+  return new Promise((resolve, reject) => {
+    try {
+      client.destroy();
+      isOnline = false;
+      resolve();
+    } catch (err) {
+      reject(new Error(err));
+    }
+  });
+};
 
 module.exports.isOnline = () => {
-    return isOnline
-}
+  return isOnline;
+};

@@ -1,11 +1,15 @@
-const streamerDB = require("../../lib/db/find/streamers");
+const streamerDB = require("../../lib/db/streamers");
 const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  streamerDB.getAllStreamerUsernames((streamers) => {
-    sendResp(streamers);
-  });
+  streamerDB.getAllStreamers()
+  .then(streamers => {
+    sendResp(streamers.map(streamer => {
+      return streamer.username;
+    }));
+  })
+  .catch(console.log(err));
 
   function sendResp(streamers) {
     res.setHeader("Content-Type", "application/json");

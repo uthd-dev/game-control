@@ -6,12 +6,14 @@ const clientSecret = process.env.twitchClientSecret;
 const authProvider = new ClientCredentialsAuthProvider(clientId, clientSecret);
 const apiClient = new ApiClient({ authProvider });
 
-async function isStreamerLive(userName) {
-  const user = await apiClient.helix.users.getUserByName(userName);
-  if (!user) {
-    return false;
-  }
-  return true;
-}
-
-module.exports.isStreamerLive = isStreamerLive;
+exports.isStreamerLive = (twitchId) => {
+  new Promise((resolve, reject) => {
+    apiClient.helix.users
+      .getUserById(twitchId)
+      .then((user) => {
+        if (user) resolve(true);
+        else resolve(false);
+      })
+      .catch((err) => reject(new Error(err)));
+  });
+};

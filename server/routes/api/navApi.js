@@ -8,6 +8,11 @@ const userNav = [
     href: "/play/uthd",
   },
   {
+    key: "switch-account",
+    text: "Switch Account",
+    href: "/auth/twitch/?verify=true",
+  },
+  {
     key: "logout",
     text: "Logout",
     href: "/auth/logout",
@@ -21,13 +26,14 @@ const adminNav = [
   },
 ];
 
-router.get("/", (req, res) => {
+router.get("/header", (req, res) => {
   if (req.user) {
     res.setHeader("Content-Type", "application/json");
     if (req.user.role == "admin") {
-      res.json({
-        nav: [...adminNav, ...userNav],
-      });
+      res.json([
+        ...adminNav, 
+        ...userNav
+      ]);
     } else {
       res.json({
         nav: userNav,

@@ -9,9 +9,9 @@ function Header() {
   const [returnTo, setReturnTo] = useState();
   useEffect(() => {
     axios
-      .get(`/api/users`)
+      .get(`/api/users/self`)
       .then((res) => {
-        setUserData(res.data.user);
+        setUserData(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -21,9 +21,9 @@ function Header() {
   useEffect(() => {
     if (userData.loggedIn) {
       axios
-        .get(`/api/nav`)
+        .get(`/api/nav/header`)
         .then((res) => {
-          setNavLinks(res.data.nav);
+          setNavLinks(res.data);
         })
         .catch((err) => {
           console.log(err);

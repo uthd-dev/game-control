@@ -60,7 +60,7 @@ const Wrapper = styled.div`
 const Canvas = styled.div`
   width: 100%;
   height: calc(100vh - 80px);
-  background: url(/home/gaming-minecraft.png);
+  background: url(/home/gaming-minecraft.webp);
   background-size: cover;
 
   display: flex;
