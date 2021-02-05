@@ -1,18 +1,31 @@
 //Component Imports
-import Link from "next/link";
 import ButtonHelp from "../../components/play-components/buttonHelp";
 import ButtonHurt from "../../components/play-components/buttonHurt";
 import Layout from "../../components/layout-components/layout";
 import StreamerSidebar from "../../components/play-components/streamerSidebar";
 
 //Useful Stuff Imports
-import { TwitchEmbed } from "react-twitch-embed";
 import styled from "styled-components";
+import dynamic from 'next/dynamic';
 import { useEffect, useState } from "react";
+import { TwitchEmbed } from "react-twitch-embed";
 
 /* Socket.io */
 import { io } from "socket.io-client";
 const socket = io("/api/ws/user");
+
+const StreamPlayer = () => {
+  if(typeof window !== 'undefined') {
+    return <TwitchEmbed
+      channel="uthd"
+      id="uthd"
+      muted
+      theme="dark"
+      height="100%"
+      width="100%"
+    />
+  }else return  "Loading...";
+}
 
 function StreamerGameControl(props) {
   const [userData, setUserData] = useState();
@@ -34,14 +47,7 @@ function StreamerGameControl(props) {
       <ContentWrapper>
         <RowOneWrapper>
           <Twitch>
-            <TwitchEmbed
-              channel="uthd"
-              id="uthd"
-              muted
-              theme="dark"
-              height="100%"
-              width="100%"
-            />
+            <StreamPlayer  />
           </Twitch>
         </RowOneWrapper>
         <RowTwoWrapper>
