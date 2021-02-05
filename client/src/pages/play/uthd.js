@@ -26,6 +26,7 @@ function StreamerGameControl(props) {
     socket.on("update-streamerData", (data) => {
       setStreamerData(data);
     });
+    socket.emit("get-userData");
   }, []);
   return (
     <Layout>

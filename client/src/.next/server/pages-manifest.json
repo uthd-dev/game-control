@@ -3,5 +3,6 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/play/uthd": "pages/play/uthd.js"
+  "/play/uthd": "pages/play/uthd.js",
+  "/admin/[slug]": "pages/admin/[slug].js"
 }

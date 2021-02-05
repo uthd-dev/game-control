@@ -45,6 +45,9 @@ function wsServer(io) {
       .setUserOnlineStatus(socket.request.user.twitchId, true)
       .then(emitAdminStats())
       .catch((err) => console.log(err));
+    socket.on("get-userData", () => {
+      socket.emit("update-userData", socket.request.user);
+    });
 
     socket.on("disconnect", () => {
       userDB
