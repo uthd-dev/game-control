@@ -5,22 +5,19 @@ const commands = require("./commands")(client);
 
 var isOnline = false;
 
-client.on("ready", () => {
-  console.log(`DISCORD: Logged in as ${client.user.tag}`);
-});
-
 module.exports.login = () => {
   return new Promise((resolve, reject) => {
     console.log("DISCORD: Logging in...");
     client
       .login(process.env.DISCORD_BOT_TOKEN)
-      .then(() => {
-        isOnline = true;
-        resolve();
-      })
+      .then(isOnline = true)
       .catch((err) => reject(new Error(err)));
-  });
-};
+      client.on("ready", () => {
+        console.log(`DISCORD: Logged in as ${client.user.tag}`);
+        resolve();
+      });
+    });
+}
 
 module.exports.logout = () => {
   return new Promise((resolve, reject) => {
