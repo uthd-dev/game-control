@@ -44,15 +44,14 @@ function wsServer(io) {
     userDB
       .setUserOnlineStatus(socket.request.user.twitchId, true)
       .then(emitAdminStats())
-      .catch(console.log(err));
+      .catch((err) => console.log(err));
 
-    socket.on(
-      "disconnect",
+    socket.on("disconnect", () => {
       userDB
         .setUserOnlineStatus(socket.request.user.twitchId, false)
         .then(emitAdminStats())
-        .catch(console.log(err))
-    );
+        .catch((err) => console.log(err));
+    });
   });
 
   /* ADMIN WS */
@@ -85,7 +84,7 @@ function wsServer(io) {
       emitAdminStats();
     });
     socket.on("toggle-discord", () => {
-      if (discord.isOnline()) {
+      if (!discord.isOnline()) {
         discord
           .login()
           .then(emitAdminStats())

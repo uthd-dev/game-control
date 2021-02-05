@@ -11,7 +11,7 @@ client.on("ready", () => {
 
 module.exports.login = () => {
   return new Promise((resolve, reject) => {
-    console.log("Enabling Discord bot.");
+    console.log("DISCORD: Logging in...");
     client
       .login(process.env.DISCORD_BOT_TOKEN)
       .then(() => {
