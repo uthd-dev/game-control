@@ -10,8 +10,8 @@ let userSocket;
 let adminSocket;
 
 function init(io) {
-  userSocket = io.of("/api/users/ws");
-  adminSocket = io.of("/api/admin/ws");
+  userSocket = io.of("/api/ws/user");
+  adminSocket = io.of("/api/ws/admin");
 }
 
 function wsServer(io) {
@@ -81,18 +81,27 @@ function wsServer(io) {
     emitAdminStats();
     socket.emit("update-userData", socket.request.user);
     //Event Handlers
-    socket.on("get-stats", emitAdminStats());
-    socket.on(
-      "toggle-discord",
-      (discord.isOnline() ? discord.logout() : discord.login())
-        .then(emitAdminStats())
-        .catch(console.log(err))
-    );
+    socket.on("get-stats", () => {
+      emitAdminStats();
+    });
+    socket.on("toggle-discord", () => {
+      if (discord.isOnline()) {
+        discord
+          .login()
+          .then(emitAdminStats())
+          .catch((err) => console.log(err));
+      } else {
+        discord
+          .logout()
+          .then(emitAdminStats())
+          .catch((err) => console.log(err));
+      }
+    });
   });
 }
 
 function emitAdminStats() {
-  Promise.all([streamerDB.getLiveStreamerCount, userDB.getOnlinePlayerCount])
+  Promise.all([streamerDB.getLiveStreamerCount, userDB.getOnlineUserCount])
     .then((res) => {
       adminSocket.emit("stats", {
         liveStreamCount: res[0],

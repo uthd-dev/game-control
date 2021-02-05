@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 /* Socket.io */
 import { io } from "socket.io-client";
-const socket = io("/api/admin/ws");
+const socket = io("/api/ws/admin");
 
 function Dashboard(props) {
   const [userData, setUserData] = useState();

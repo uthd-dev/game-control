@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 /* Socket.io */
 import { io } from "socket.io-client";
-const socket = io("/api/users/ws");
+const socket = io("/api/ws/user");
 
 function StreamerGameControl(props) {
   const [userData, setUserData] = useState();
