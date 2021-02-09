@@ -9,7 +9,7 @@ const sessionConfig = {
     maxAge: 86400 * 1000, // 24 hours in milliseconds
   },
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: new MongoStore({ url: process.env.dbConnUrl }),
 };
 
