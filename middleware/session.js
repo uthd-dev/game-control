@@ -1,11 +1,10 @@
 import session from "express-session";
 import connectMongo from "connect-mongo";
-import uid from "uid-safe";
 
 const MongoStore = connectMongo(session);
 
 const sessionConfig = {
-  secret: uid.sync(18),
+  secret: process.env.COOKIE_SECRET,
   cookie: {
     maxAge: 28800 * 1000, // 8 hours in milliseconds
   },
