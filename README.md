@@ -1,12 +1,14 @@
 # UTHD Gaming
 Giving streamers more options to interact with their viewers, live.
 
-### To Install:
+---
 
-***THIS BRANCH IS UNDER HEAVY DEVELOPMENT FOR A SERVERLESS DEPLOYMENT***
-*Not for self-deployment whatsoever*
+### ~~To Install:~~
 
-*NOTE: Your user only gets created in the DB after you've logged in at least once*
+# NOT DEPLOYMENT READY
+
+*Not for self-deployment whatsoever; being built for production serverless deploys*
+
 ---
 
 ## Contact
