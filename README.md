@@ -7,6 +7,8 @@ Giving streamers more options to interact with their viewers, live.
 
 *Not for self-deployment whatsoever; being built for production serverless deploys*
 
+If you want to see code you can deploy yourself, checkout the "express" branch that uses an Express.JS backend server
+
 ---
 
 ## Contact
