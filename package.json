@@ -48,7 +48,8 @@
     "styled-components": "^5.2.1",
     "swr": "^0.3.11",
     "twitch": "^4.4.6",
-    "uid-safe": "^2.1.5"
+    "uid-safe": "^2.1.5",
+    "vercel": "^21.2.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
