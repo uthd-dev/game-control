@@ -3,8 +3,6 @@ Giving streamers more options to interact with their viewers, live.
 
 ---
 
-### ~~To Install:~~
-
 # NOT DEPLOYMENT READY
 
 *Not for self-deployment whatsoever; being built for production serverless deploys*
