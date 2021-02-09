@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Header from "./header";
+import Header from "./header/header";
 
 function Layout({ children }) {
   return (

@@ -1,7 +1,6 @@
 import session from "express-session";
 import connectMongo from "connect-mongo";
 import uid from "uid-safe";
-import { mongo } from "mongoose";
 
 const MongoStore = connectMongo(session);
 
@@ -11,7 +10,7 @@ const sessionConfig = {
     maxAge: 28800 * 1000, // 8 hours in milliseconds
   },
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
 };
 
 export default function sessionMiddleware(req, res, next) {

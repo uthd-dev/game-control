@@ -1,0 +1,1 @@
+{"ast":null,"code":"import mongoose, { Schema } from 'mongoose';\nconst Link = new Schema({\n  key: String,\n  path: String,\n  text: String,\n  context: String,\n  permLevel: Number\n});\nexport default mongoose.models.Link || mongoose.model(\"Link\", Link, \"links\");","map":null,"metadata":{},"sourceType":"module"}

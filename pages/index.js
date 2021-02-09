@@ -10,7 +10,7 @@ function Home() {
         <Wrapper>
           <Title>Play along with your favorite streamers</Title>
           <ButtonWrapper>
-            <a href={`/api/auth/twitch/?returnTo=/play/uthd?tour=true`}>
+            <a href={`/api/auth/twitch/?returnTo=/play/uthd`}>
               <SignUpButton>Sign Up</SignUpButton>
             </a>
             <Link href={`/how-it-works`}>

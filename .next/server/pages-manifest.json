@@ -1,12 +1,15 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/_error": "pages/_error.js",
-  "/": "pages/index.js",
-  "/api/user": "pages/api/user.js",
+  "/admin/[slug]": "pages/admin/[slug].html",
   "/api/auth/twitch/callback": "pages/api/auth/twitch/callback.js",
   "/api/auth/twitch": "pages/api/auth/twitch.js",
   "/api/nav/[context]": "pages/api/nav/[context].js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
-  "/play/uthd": "pages/play/uthd.js"
+  "/api/users/self": "pages/api/users/self.js",
+  "/": "pages/index.html",
+  "/play/uthd": "pages/play/uthd.html",
+  "/stream": "pages/stream.html",
+  "/stream/onboarding": "pages/stream/onboarding.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
 }

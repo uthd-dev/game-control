@@ -8,7 +8,8 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
     const { context } = req.query;
-    res.json({ nav: await getLinks(req, context) })
+    const { role } = req.user;
+    res.json({ nav: await getLinks(req, context, role) })
 });
 
 export default handler;
