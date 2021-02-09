@@ -8,8 +8,8 @@ handler.use(middleware);
 
 handler.get(async (req, res) => {
     const { context } = req.query;
-    const { role } = req.user;
-    res.json({ nav: await getLinks(req, context, role) })
+    const { permLevel } = req.user;
+    res.json({ nav: await getLinks(req, context, permLevel) })
 });
 
 export default handler;

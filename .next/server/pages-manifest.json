@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/admin/[slug]": "pages/admin/[slug].html",
+  "/api/auth/logout": "pages/api/auth/logout.js",
   "/api/auth/twitch/callback": "pages/api/auth/twitch/callback.js",
   "/api/auth/twitch": "pages/api/auth/twitch.js",
   "/api/nav/[context]": "pages/api/nav/[context].js",

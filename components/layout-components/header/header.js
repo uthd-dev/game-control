@@ -3,11 +3,11 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import NavLinks from './nav'
 import TwitchButton from '../twitch-button';
 
 function Header() {
   const [userData, setUserData] = useState({});
-  const [navLinks, setNavLinks] = useState([]);
   useEffect(() => {
     axios
       .get(`/api/users/self`)
@@ -21,28 +21,15 @@ function Header() {
 
   useEffect(() => {
     if (userData.loggedIn) {
-      axios
-        .get(`/api/nav/header`)
-        .then((res) => {
-          setNavLinks(res.data.nav);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [userData]);
-
-  useEffect(() => {
-    if (userData.loggedIn) {
-      document.getElementById("profileImg").src = `${userData.profileImg}`;
-      document.getElementById("profileImg").classList.remove("hidden");
+      document.getElementById("profile-img").src = `${userData.profileImg}`;
+      document.getElementById("profile-img").classList.remove("hidden");
       document.getElementById("twitch-button").classList.add("hidden");
-      document.getElementById("headerGreeting").classList.remove("hidden");
+      document.getElementById("header-greeting").classList.remove("hidden");
     }
   }, [userData]);
 
   function profileClickHandler() {
-    document.getElementById("dd-menu").classList.toggle("hidden");
+    document.getElementById("header-menu").classList.toggle("hidden");
   }
   return (
     <HeaderWrapper>
@@ -55,16 +42,16 @@ function Header() {
         </Link>
         <HeaderMenu>
           <TwitchButton />
-          <HeaderGreeting id="headerGreeting" className="hidden">
+          <HeaderGreeting id="header-greeting" className="hidden">
             Hi, {userData.displayName}!
           </HeaderGreeting>
           <HeaderProfileImage
-            id="profileImg"
+            id="profile-img"
             className="hidden"
             onClick={profileClickHandler}
           ></HeaderProfileImage>
-          <NavMenu id="dd-menu" className="hidden">
-            <NavLinks navLinks={navLinks} fallback={"Loading..."} />
+          <NavMenu id="header-menu" className="hidden">
+            <NavLinks />
           </NavMenu>
         </HeaderMenu>
       </HeaderContentWrapper>
@@ -72,19 +59,7 @@ function Header() {
   );
 }
 
-function NavLinks({ navLinks, fallback }) {
-  if (!navLinks.length == 0) {
-    return navLinks.map((item) => {
-      return (
-        <Link href={item.href}>
-          <a>
-            <NavLink key={item.key}>{item.text}</NavLink>
-          </a>
-        </Link>
-      );
-    });
-  }else return fallback;
-}
+/* STYLES */
 
 const HeaderWrapper = styled.div`
   height: 80px;
@@ -152,24 +127,7 @@ const NavMenu = styled.div`
   justify-content: beginning;
   overflow: hidden;
 `;
-const NavLink = styled.div`
-  min-width: 200px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-  border-radius: 0;
-
-  padding: 10px 20px;
-  background: linear-gradient(64.96deg, #111111 0%, rgba(79, 79, 79, 0.2) 100%);
-  color: #f5f5f5;
-  :hover {
-    opacity: 80%;
-    transition: 100ms;
-  }
-  transition: 300ms;
-`;
 
 const HeaderContentWrapper = styled.div`
   width: 90%;

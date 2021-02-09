@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -100,7 +100,7 @@ module.exports = require("uid-safe");
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("yJp7");
@@ -173,11 +173,13 @@ const Link = new external_mongoose_["Schema"]({
 /* harmony default export */ var links = (external_mongoose_default.a.models.Link || external_mongoose_default.a.model("Link", Link, "links"));
 // CONCATENATED MODULE: ./utils/links.js
 
-async function getLinks(req, context, role) {
+async function getLinks(req, context, permLevel) {
   if (!req.user) return [];
   return await links.find({
     context: context,
-    role: role
+    permLevel: {
+      $lte: permLevel
+    }
   });
 }
 // CONCATENATED MODULE: ./pages/api/nav/[context].js
@@ -191,10 +193,10 @@ handler.get(async (req, res) => {
     context
   } = req.query;
   const {
-    role
+    permLevel
   } = req.user;
   res.json({
-    nav: await getLinks(req, context, role)
+    nav: await getLinks(req, context, permLevel)
   });
 });
 /* harmony default export */ var _context_ = __webpack_exports__["default"] = (handler);

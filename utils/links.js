@@ -1,6 +1,6 @@
 import Link from '../lib/db/schema/links'
 
-export async function getLinks(req, context, role) {
+export async function getLinks(req, context, permLevel) {
     if (!req.user) return [];
-    return await Link.find({context: context,role: role})
+    return await Link.find({context: context,permLevel: { $lte: permLevel}})
   }
