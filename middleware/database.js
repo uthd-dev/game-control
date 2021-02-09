@@ -9,7 +9,6 @@ export default async function database(req, res, next) {
         useFindAndModify: false,
       });
     }
-    if(!req.mongoose) req.mongoose = global.mongoose;
   } catch (err) {
     console.error(err);
   }

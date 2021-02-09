@@ -13,6 +13,10 @@ const sessionConfig = {
 };
 
 export default function sessionMiddleware(req, res, next) {
+  if(process.env.NODE_ENV === "production") {
+    sessionConfig.cookie.secure = true;
+    sessionConfig.proxy = true;
+  }
   const mongoStore = new MongoStore({
     mongooseConnection: global.mongoose.connection
   });

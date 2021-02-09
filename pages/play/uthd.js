@@ -13,23 +13,12 @@ const TwitchEmbed = dynamic(
   { ssr: false }
 )
 
-/* Socket.io */
-import { io } from "socket.io-client";
-const socket = io("/api/ws/user");
-
 function StreamerGameControl(props) {
   const [userData, setUserData] = useState();
   const [streamerData, setStreamerData] = useState();
 
   useEffect(() => {
-    socket.on("connect", () => {});
-    socket.on("update-userData", (data) => {
-      setUserData(data);
-    });
-    socket.on("update-streamerData", (data) => {
-      setStreamerData(data);
-    });
-    socket.emit("get-userData");
+ 
   }, []);
   return (
     <Layout>

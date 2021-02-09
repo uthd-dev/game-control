@@ -6,6 +6,9 @@ const handler = nextConnect();
 
 handler.use(middleware);
 
-handler.get(async (req, res) => res.json({ user: await extractUser(req) }));
+handler.get(async (req, res) => {
+    const user = await extractUser(req);
+    res.json({ user: user });
+});
 
 export default handler;
