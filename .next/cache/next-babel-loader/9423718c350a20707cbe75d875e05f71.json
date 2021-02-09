@@ -1,1 +1,0 @@
-{"ast":null,"code":"import nextConnect from 'next-connect';\nimport middleware from '../../../middleware/index';\nimport passport from '../../../lib/auth/passport';\nconst handler = nextConnect();\nhandler.use(middleware);\nhandler.get((req, res) => {\n  req.logout();\n  res.redirect('/');\n});\nexport default handler;","map":null,"metadata":{},"sourceType":"module"}

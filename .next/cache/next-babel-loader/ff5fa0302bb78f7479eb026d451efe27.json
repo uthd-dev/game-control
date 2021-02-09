@@ -1,1 +1,0 @@
-{"ast":null,"code":"import Link from '../lib/db/schema/links';\nexport async function getLinks(req, context, role) {\n  if (!req.user) return [];\n  return await Link.find({\n    context: context,\n    role: role\n  });\n}","map":null,"metadata":{},"sourceType":"module"}
