@@ -10,7 +10,7 @@ export default function NavLinks() {
   });
 
   if (error) return <NavLink>Server Error</NavLink>;
-  if (!data) return <NavLink>Loading...</NavLink>;
+  if (!data?.nav) return <NavLink>Loading...</NavLink>;
   const { nav } = data;
   if (!nav.length > 0) return <NavLink>No links found...</NavLink>;
 
