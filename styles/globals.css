@@ -19,6 +19,10 @@ a {
   flex: 0;
   transition: 300ms;
 }
+.opacity-hidden {
+  opacity: 0%;
+  transition: 300ms;
+}
 
 h1 {
   font-family: Montserrat;

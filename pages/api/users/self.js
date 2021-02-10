@@ -1,14 +1,6 @@
-import nextConnect from "next-connect";
-import middleware from "../../../middleware/index";
-import { extractUser } from "../../../utils/users";
+import { getSession } from "next-auth/client";
 
-const handler = nextConnect();
-
-handler.use(middleware);
-
-handler.get(async (req, res) => {
-    const user = await extractUser(req);
-    res.json({ user: user });
-});
-
-export default handler;
+export default async (req, res) => {
+    const session = await getSession({ req })
+    res.json({ user: session.user });
+};

@@ -1,19 +1,26 @@
-import styled from 'styled-components';
-import Link from 'next/link';
+import styled from "styled-components";
+import Link from "next/link";
 import useSWR from "swr";
+import { useSession, signIn, signOut } from "next-auth/client";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 export default function NavLinks() {
-  const { data, error } = useSWR("/api/nav/header", fetcher, {
-    refreshInterval: 5 * 60 * 1000,
-  });
+  const { data, error } = useSWR("/api/nav/header", fetcher);
 
-  if (error) return <NavLink>Server Error</NavLink>;
+  if (error) return <NavLink>Error loading nav</NavLink>;
+
   if (!data?.nav) return <NavLink>Loading...</NavLink>;
-  const { nav } = data;
-  if (!nav.length > 0) return <NavLink>No links found...</NavLink>;
 
+  return (
+    <>
+      <DynamicLinks data={data} />
+      <NavLink onClick={() => signOut()}>Logout</NavLink>
+    </>
+  );
+}
+
+function DynamicLinks({ data }) {
   return data.nav.map((link) => {
     return (
       <Link href={link.path}>
@@ -43,4 +50,6 @@ const NavLink = styled.div`
     transition: 100ms;
   }
   transition: 300ms;
+
+  cursor: pointer;
 `;
