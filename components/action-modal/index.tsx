@@ -80,11 +80,11 @@ export default function ActionCard({ defaultProps, visible }) {
     >
       <div id="col-left" className={styles.options}>
         <form id="action-form">
-          {actions.map((action, index) => {
+          {actions.map((action) => {
             return (
               <OptionSelector
+                key={action.id}
                 action={action}
-                index={index}
                 setCart={() => {}}
               />
             );

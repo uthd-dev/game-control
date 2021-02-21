@@ -7,17 +7,16 @@ import { SelectorVariants } from "./animations";
 
 interface Props {
   action: Action;
-  index: number;
   setCart: Function;
 }
 
-export default function OptionSelector({ action, index, setCart }: Props) {
+export default function OptionSelector({ action, setCart }: Props) {
   return (
     <Option
       variants={SelectorVariants}
     >
       <h5>{action.name}</h5>
-      <Dropdowns action={action} index={index} setCart={setCart} />
+      <Dropdowns action={action} setCart={setCart} />
     </Option>
   );
 }
@@ -45,7 +44,7 @@ function LevelsDropdown(props) {
           Level
         </option>
         {action.opts.levels.map((level) => {
-          return <option value={level}>{level}</option>;
+          return <option key={level} value={level}>{level}</option>;
         })}
       </Levels>
     );
@@ -64,7 +63,7 @@ function DurationsDropdown(props) {
             Duration
           </option>
           {action.opts.durations.map((duration) => {
-            return <option value={duration}>{duration} seconds</option>;
+            return <option key={duration} value={duration}>{duration} seconds</option>;
           })}
         </Durations>
       </>
